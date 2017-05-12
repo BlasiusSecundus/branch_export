@@ -1,0 +1,167 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2017.03.21., 8:40:26
+    Author     : Balázs
+*/
+
+.menu-branch-export
+{
+    background-position: center;
+    background-image: url("branch-export-icon.png")!important;
+}
+
+.menu-branch-export .menu-help
+{
+    background-position: left -552px;
+    
+}
+
+.branch-export-heading
+{
+    width: 100%; 
+    text-align: center;
+}
+
+#branchexp, #branchcfg
+{
+    width: 500px; 
+    margin:0 auto;
+}
+
+#branchexp table, #branchcfg table
+{
+    width: 100%;
+}
+
+.branch-cutoff-label
+{
+    display: inline-block; 
+    min-width: 80px;
+}
+
+#content h2{
+    margin-left: auto;
+}
+
+.branch-preview-heading
+{
+    text-decoration: underline;
+}
+.branch-preview-no-pivot, 
+.branch-preview-heading
+{
+    text-align: center;
+}
+
+.branch-preview-content,
+.branch-preview-no-pivot, 
+.branch-preview-heading
+{
+    width: 50%; 
+    margin: 30px auto; 
+}
+
+
+.branch-preview-summary-label
+{
+    display: inline-block; 
+    min-width: 200px;
+}
+
+.branch-preview-table .list_label:first-child,.branch-preview-table .list_value:first-child
+{
+    width: 50px;
+    text-align: center;
+    vertical-align:  middle;
+}
+
+.branch-export-version
+{
+    width: 100%;
+    text-align: center;
+}
+
+#branchexport_help
+{
+    width: 70%; 
+    margin:0 auto;
+}
+
+.admin-only-warning
+{
+    width: 100%;
+    text-align: center;
+}
+
+.warning-lippings-cart-disabled
+{
+    text-align: center;
+    width: 100%;
+    color: red;
+}
+
+/*Config*/
+
+#presets 
+{
+    width: 90%;
+    resize: vertical;
+}
+
+.selected-preset-details label
+{
+    display: inline-block;
+    width: 50px;
+    font-weight: bold;
+}
+.preset-orphaned
+{
+    color: red;
+}
+
+.preset-config-error
+{
+    color:red;
+    text-align: center;
+}
+
+#uninstall_branch_export_module 
+{
+    text-align: center;
+    width: 100%;
+    margin: 30px 0;
+}
+
+#uninstall_branch_export_module input[type='submit']
+{
+    text-transform: uppercase;
+    color: red;
+    font-size: 2em;
+}
+
+/*Update warning*/
+
+.db-update-warning h1
+{
+    width: 100%;
+    text-align: center;
+}
+
+.db-update-warning
+{
+    width: 50%;
+    margin: 0 auto;
+}
+
+.db-update-warning a[href]
+{
+    text-align: center;
+    font-weight: bold;
+    width: 100%;
+    display: inline-block;
+}
+
