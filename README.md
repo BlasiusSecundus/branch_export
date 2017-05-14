@@ -12,8 +12,8 @@ Module files should be copied to [Webtrees root]/modules_v3/branch_export folder
 
 Then, you must enable the module (Control Panel / Modules / Module Administration). Next time you load Webtrees, the new menu "Branch export" menu item will appear in the main menu. Click on it. It will tell you that it needs to initialize a data new table. Click "Perform Initialization". Now the module is functional.
 
-*Note: The update should not harm your existing data in any way, but it is always a good idea to create a backup first. * 
-*Note 2: You can only do this if you are logged in as administrator. *
+*Note: The update should not harm your existing data in any way, but it is always a good idea to create a backup first.* 
+*Note 2: You can only do this if you are logged in as administrator.*
 
 ## How Branch Export works
 
