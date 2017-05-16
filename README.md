@@ -37,3 +37,7 @@ Only individuals can be used as pivot point. Any individual in the tree can be u
 ## What records can be used as cutoff points?
 
 Only individuals and families can be used as cutoff points. Any individual or family in the tree can be used. Using a family as cutoff point is a shortcut for adding all individuals in that family as cutoff points.
+
+## Acknowledgement
+
+Original idea and project coordination by Marcel Beerli.
