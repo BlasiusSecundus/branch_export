@@ -27,7 +27,7 @@ use Fisharebest\Webtrees\Source;
 use Fisharebest\Webtrees\GedcomRecord;
 use Fisharebest\Webtrees\Tree;
 
-define("BRANCH_EXPORT_MODULE_VERSION","1.0.0 - 08.05.2017");
+define("BRANCH_EXPORT_MODULE_VERSION","1.1.0 - ?.?.2017");
 define("BRANCH_EXPORT_MODULE_DB_VERSION",1);
 
 /*
@@ -750,9 +750,9 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     {
         ?>
         <p>
-            <span class="branch-preview-summary-label"><?php echo I18N::translate(sprintf("Total %s records in this tree",$record_type))?>:</span> <?php echo $num_records_in_tree = $this->numRecordOfTypeInTree($record_type);?>
+            <span class="branch-preview-summary-label"><?php echo sprintf(I18N::translate("Total %s records in this tree",$record_type))?>:</span> <?php echo $num_records_in_tree = $this->numRecordOfTypeInTree($record_type);?>
                 <br>
-                <span class="branch-preview-summary-label"><?php echo I18N::translate(sprintf("%s records in this branch",$record_type))?>:</span> <?php echo $num_records_in_branch = $this->numRecordInBranch($record_type)?> 
+                <span class="branch-preview-summary-label"><?php echo sprintf(I18N::translate("%s records in this branch",$record_type))?>:</span> <?php echo $num_records_in_branch = $this->numRecordInBranch($record_type)?> 
                 <?php if($num_records_in_tree) { echo "(".round(100*($num_records_in_branch / $num_records_in_tree),2)."%)"; }?>
             </p>
        <?php
@@ -763,7 +763,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
      */
     protected function getModuleVersionHTML()
     {   
-        return "<p class='branch-export-version'>".$this->getTitle()." module v".BRANCH_EXPORT_MODULE_VERSION."</p>";
+        return "<p class='branch-export-version'>".I18N::translate("Branch export module")." - v".BRANCH_EXPORT_MODULE_VERSION."</p>";
     }
     
     /**
@@ -914,7 +914,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
                     <tbody>
                         <tr>
                             <td class="optionbox">
-                                <h5>Tree</h5>
+                                <h5><?php echo I18N::translate("Tree:")?></h5>
                                 <p>
                                 <select id="tree_id" name="tree_id">
                                     <option value="NULL"><?php echo I18N::translate("All trees")?></option>
@@ -927,7 +927,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
                                 </p>
                             </td>
                             <td class="optionbox">
-                                <h5>Select preset(s):</h5>
+                                <h5><?php echo I18N::translate("Select preset(s):")?></h5>
                                 <p>
                                 <select id="presets" name="presets[]" multiple>
                                     <?php foreach($preset_list as $preset):?>
@@ -943,18 +943,18 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
                                 </p>
                             </td>
                             <td class="optionbox selected-preset-details">
-                                <h5>Selected preset details</h5>
+                                <h5><?php echo I18N::translate("Preset details")?></h5>
                                 <p>
-                                    <label>Tree:</label><span id="selected_preset_tree"></span>
+                                    <label><?php echo I18N::translate("Tree:")?></label><span id="selected_preset_tree"></span>
                                 </p>
                                 <p>
-                                    <label>Name:</label><span id="selected_preset_name"></span>
+                                    <label><?php echo I18N::translate("Name:")?></label><span id="selected_preset_name"></span>
                                 </p>
                                 <p>
-                                    <label>Pivot:</label><span id="selected_preset_pivot"></span>
+                                    <label><?php echo I18N::translate("Pivot:")?></label><span id="selected_preset_pivot"></span>
                                 </p>
                                  <p>
-                                    <label>Cutoff:</label><span id="selected_preset_cutoff"></span>
+                                    <label><?php echo I18N::translate("Cutoff:")?></label><span id="selected_preset_cutoff"></span>
                                 </p>
                             </td>
                         </tr>
@@ -1223,7 +1223,10 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
             I18N::translate("First public release"),
             I18N::translate("Improved help section, as well as other changes/fixes to certain text elements"),
             I18N::translate("Warning message is now displayed if Clippings cart module is disabled")
-        ]
+        ],
+        "1.1.0" => [
+            I18N::translate("Added Hungarian localization")
+        ]        
                 
        ];
         
@@ -1338,11 +1341,11 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
                                     </tr>
                                     <tr>
                                         <td class="optionbox" colspan="2">
-                                            <label for="branch_preset_name">Name:</label>
+                                            <label for="branch_preset_name"><?php echo I18N::translate("Name:")?></label>
                                             <input name="branch_preset_name" id="branch_preset_name" value="<?php echo $this->SelectedPreset!=="NULL" ? $this->SelectedPreset : ""?>">
-                                            <input type="button" id="save_branch_preset" value="Save" onclick="branchExport_OnSavePreset('<?php echo $this->directory?>')">
-                                            <input type="button" id="rename_branch_preset" value="Rename &amp; Save" onclick="branchExport_OnSavePreset('<?php echo $this->directory?>',1)">
-                                            <input type="button" id="delete_branch_preset" value="Delete" onclick="branchExport_OnDeletePreset('<?php echo $this->directory?>')"> 
+                                            <input type="button" id="save_branch_preset" value="<?php echo I18N::translate("Save")?>" onclick="branchExport_OnSavePreset('<?php echo $this->directory?>')">
+                                            <input type="button" id="rename_branch_preset" value="<?php echo I18N::translate("Rename &amp; Save")?>" onclick="branchExport_OnSavePreset('<?php echo $this->directory?>',1)">
+                                            <input type="button" id="delete_branch_preset" value="<?php echo I18N::translate("Delete")?>" onclick="branchExport_OnDeletePreset('<?php echo $this->directory?>')"> 
                                         </td>
                                     </tr>
                             </tbody>
@@ -1431,6 +1434,21 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
             $this->uninstall();
             header("Location: ".WT_BASE_URL);
         }
+        else if($mod_action === "translate")
+        {
+            $src_strings = Filter::post("strings");
+            
+            if(is_array($src_strings)){
+                foreach($src_strings as $src)
+                {
+                    $translations[$src] = I18N::translate($src);
+                }
+            }
+
+
+            echo json_encode( $translations );
+            exit();
+        }
        
         
         global $controller, $WT_TREE;
@@ -1438,6 +1456,8 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         $controller
                 ->setPageTitle($this->getTitle())
                 ->pageHeader()
+                ->addExternalJavascript($this->directory."/assets/sprintf.min.js")
+                ->addExternalJavascript($this->directory."/assets/translate.js")
                 ->addExternalJavascript($this->directory."/assets/branch_export.js")
                 ->addExternalJavascript(WT_AUTOCOMPLETE_JS_URL)
                 ->addInlineJavascript('autocomplete();');
@@ -1492,7 +1512,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         
         global $controller;
          $controller
-                ->addExternalJavascript($this->directory."/assets/branch_export.js");
+                ->addExternalJavascript($this->directory."/assets/branch_export.js");           
          if(Filter::get("mod_action") == "branch_export_config")
          {
              $controller
@@ -1534,7 +1554,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         
        if($this->ModuleDBUpdateNecessary)
        {
-           return I18N::translate("Branch export module needs a databaes update. Please visit the module's main page to perform this update!");
+           return I18N::translate("Branch export module needs a database update. Please visit the module's main page to perform this update!");
        }
        
        global $controller;

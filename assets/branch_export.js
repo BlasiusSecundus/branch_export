@@ -1,4 +1,10 @@
 
+/**
+ * Translator object.
+ * @type I18N
+ */
+var translator = null;
+
 
 /**
  * Creates a popup window using POST method. Base "Mercenary"'s solution at http://stackoverflow.com/questions/3951768/window-open-and-pass-parameters-by-post-method. 
@@ -52,7 +58,7 @@ function branchExport_UpdateCutoffPointLabelsAndIDs()
     
     jQuery.each(jQuery("#branchexp .branch-cutoff-row"),function (){
         var cutoff_point_id = "branch_cutoff_"+index;
-        var cutoff_point_label = "Cutoff point " + index +":";
+        var cutoff_point_label = sprintf(translator.translate("Cutoff point #%d:"),index);
         jQuery(this).find("input").attr("id",cutoff_point_id);
         jQuery(this).find("label").attr("for",cutoff_point_id).text(cutoff_point_label);
         var find_indi_link = jQuery(this).find(".icon-button_indi");
@@ -184,7 +190,7 @@ function branchExport_OnDeletePreset(moduledir)
         "name" : $("#branch_preset_name").val(),
         "selected" : $("#saved_branch_presets").val()
     };
-    if(!confirm("Are you sure you want to delete this preset:"+data["name"]+"?"))
+    if(!confirm(sprintf(translator.translate("Are you sure you want to delete this preset: %s?"),data["name"])))
     {
         return;
     }
@@ -209,12 +215,12 @@ function branchExport_OnSavePreset(moduledir, rename)
         
         if(data["preset_to_rename"] === "NULL")
         {
-            alert("Please select a preset from the dropdown.");
+            alert(translator.translate("Please select a preset from the dropdown."));
             return;
         }
         else if(data["preset_to_rename"] === data["name"])
         {
-            alert(data["preset_to_rename"]+" is the current name of the selected preset. Please choose a different name, or click 'Save' instead.");
+            alert(sprintf(translator.translate("%s is the current name of the selected preset. Please choose a different name, or click 'Save' instead.") ,data["preset_to_rename"]));
             return;
         }
        
@@ -222,7 +228,7 @@ function branchExport_OnSavePreset(moduledir, rename)
     
     if(data["name"].length === 0)
     {
-        alert("A preset name is required.");
+        alert(translator.translate("A preset name is required."));
         return;
     }
     
@@ -255,8 +261,21 @@ function branchExport_OnCutoffOrPivotChanged()
 }
 
 jQuery(function(){
+    
+    jQuery("head").append('<link rel="stylesheet" href="modules_v3/branch_export/assets/branch_export.css" type="text/css" />');
+    
+    translator = new I18N();
+    translator.load([
+        "Cutoff point #%d:",
+        "%s is the current name of the selected preset. Please choose a different name, or click 'Save' instead.",
+        "A preset name is required.",
+        "Please select a preset from the dropdown.",
+        "Are you sure you want to delete this preset: %s?"]);
+    
     jQuery("#saved_branch_presets").trigger("change");
     jQuery("#branch_pivot, .branch-cutoff-row input").on("change autocompleteclose",branchExport_OnCutoffOrPivotChanged);
-    jQuery("head").append('<link rel="stylesheet" href="modules_v3/branch_export/assets/branch_export.css" type="text/css" />');
+    
     jQuery("#branchexport_help").accordion({collapsible: true, active: false});
+    
+    
 });

@@ -1,4 +1,5 @@
 
+var translator = null;
 
 function OnTreeIdChange(event)
 {
@@ -35,7 +36,7 @@ function OnPresetSelected(event)
         
         if(tree.length === 0)
         {
-            jQuery("#selected_preset_tree").html(tree_id+" <span class=\"preset-orphaned\" title=\"The tree to which this preset belonged was deleted.\">(Orphaned)</strong>");
+            jQuery("#selected_preset_tree").html(tree_id+" <span class=\"preset-orphaned\" title=\""+translator.translate("The tree to which this preset belonged was deleted")+".\">("+translator.translate("Orphaned")+")</strong>");
         }
         else
         {
@@ -64,7 +65,7 @@ function OnSelectOrphaned()
 
 function OnUninstallClick(event)
 {
-    if(!confirm("Are you sure you want to uninstall this module?\n\n(NOTE: all presets and module-related settings will be permanently deleted and the module will be disabled. Module files will not be removed. They must be manually deleted. The module can be reactivated on the 'Control Panel / Modules / Module administration' page.)"))
+    if(!confirm(translator.translate("Are you sure you want to uninstall this module?\n\n(NOTE: all presets and module-related settings will be permanently deleted and the module will be disabled. Module files will not be removed. They must be manually deleted. The module can be reactivated on the 'Control Panel / Modules / Module administration' page.)")))
     {
         event.preventDefault();
         event.stopPropagation();
@@ -72,6 +73,13 @@ function OnUninstallClick(event)
 }
 
 jQuery(function(){
+    translator = new I18N();
+    translator.load([
+        "Orphaned",
+        "The tree to which this preset belonged was deleted.",
+        "Are you sure you want to uninstall this module?\n\n(NOTE: all presets and module-related settings will be permanently deleted and the module will be disabled. Module files will not be removed. They must be manually deleted. The module can be reactivated on the 'Control Panel / Modules / Module administration' page.)"
+        ]);
+    
     jQuery("#tree_id").change(OnTreeIdChange).trigger("change");
     jQuery("#delete_presets,#copy_presets").click(OnConfigCustomActionSubmit);
     jQuery("#presets").change(OnPresetSelected);
