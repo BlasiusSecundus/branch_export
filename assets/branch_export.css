@@ -116,7 +116,7 @@ and open the template in the editor.
 .selected-preset-details label
 {
     display: inline-block;
-    width: 50px;
+    width: 70px;
     font-weight: bold;
 }
 .preset-orphaned
