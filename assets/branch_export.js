@@ -160,7 +160,7 @@ function branchExport_UpdatePresetList(presets, selected)
     {
         var preset = presets[preset_idx];
 
-        jQuery("#saved_branch_presets").append("<option value='"+preset["name"]+"' data-pivot='"+preset["pivot"]+"' data-cutoff='"+preset["cutoff"]+"' "+(preset["name"] === selected ? "selected" : "")+">"+preset["name"]+"</option>");
+        jQuery("#saved_branch_presets").append("<option value='"+preset["preset_id"]+"' data-pivot='"+preset["pivot"]+"' data-cutoff='"+preset["cutoff"]+"' "+(preset["name"] === selected ? "selected" : "")+">"+preset["name"]+"</option>");
     }
 }
 
@@ -187,9 +187,16 @@ function branchExport_OnDeletePreset(moduledir)
     
     
     var data = {
-        "name" : $("#branch_preset_name").val(),
+        "name" : $("#saved_branch_presets :selected").text(),
         "selected" : $("#saved_branch_presets").val()
     };
+    
+    if(data["selected"] === "NULL")
+    {
+        alert(translator.translate("Please select a preset from the dropdown."));
+        return;
+    }
+    
     if(!confirm(sprintf(translator.translate("Are you sure you want to delete this preset: %s?"),data["name"])))
     {
         return;
@@ -212,15 +219,16 @@ function branchExport_OnSavePreset(moduledir, rename)
     if(rename){
         data["rename"] = 1;
         data["preset_to_rename"] = $("#saved_branch_presets").val();
-        
+        var preset_current_name = $("#saved_branch_presets :selected").text();
+
         if(data["preset_to_rename"] === "NULL")
         {
             alert(translator.translate("Please select a preset from the dropdown."));
             return;
         }
-        else if(data["preset_to_rename"] === data["name"])
+        else if(data["name"] === preset_current_name)
         {
-            alert(sprintf(translator.translate("%s is the current name of the selected preset. Please choose a different name, or click 'Save' instead.") ,data["preset_to_rename"]));
+            alert(sprintf(translator.translate("%s is the current name of the selected preset. Please choose a different name, or click 'Save' instead.") ,data["name"]));
             return;
         }
        

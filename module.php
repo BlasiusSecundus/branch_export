@@ -1225,7 +1225,11 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
             I18N::translate("Warning message is now displayed if Clippings cart module is disabled")
         ],
         "1.1.0" => [
-            I18N::translate("Added Hungarian localization")
+            I18N::translate("Added Hungarian and German localization"),
+            I18N::translate("Fixed: 'Unable to delete preset (None)' error message when pressing Delete without selecting a preset."),
+            I18N::translate("Fixed: when clicking Delete, the confirmation dialog used the value of the 'Name' input field instead the name of the selected Preset."),
+            I18N::translate("Fixed: when renaming a preset with the new name being identical to the current name, 'duplicate key' error message was displayed."),
+            I18N::translate("Fixed: after saving/deleting/renaming a preset the preset list was refreshed incorrectly, preventing further rename/delete operations (until page refresh).")
         ]        
                 
        ];
