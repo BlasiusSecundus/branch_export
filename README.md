@@ -40,4 +40,4 @@ Only individuals and families can be used as cutoff points. Any individual or fa
 
 ## Acknowledgement
 
-Original idea and project coordination by Marcel Beerli.
+Original idea, project coordination and German translation by Marcel Beerli.
