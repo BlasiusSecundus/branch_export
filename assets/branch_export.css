@@ -110,6 +110,7 @@ and open the template in the editor.
 {
     width: 90%;
     resize: vertical;
+    min-height: 100px;
 }
 
 .selected-preset-details label

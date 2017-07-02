@@ -1213,25 +1213,25 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         ];
         
         $release_log = [
-        "0.9.3" => [
-            I18N::translate("Added install/uninstall features"),
-            I18N::translate("Added release log"),
-            I18N::translate("Added Save &amp; Rename command"),
-            I18N::translate("Clicking 'Delete' will now ask for confirmation before deleting the preset"),
-            I18N::translate("Fixed: 'Name' field contained the id of the preset (instead of the name) after clicking 'Preview'; 'Load preset' also lost its stored value, and was reset to '(None)'.")],
-        "1.0.0" =>[
-            I18N::translate("First public release"),
-            I18N::translate("Improved help section, as well as other changes/fixes to certain text elements"),
-            I18N::translate("Warning message is now displayed if Clippings cart module is disabled")
-        ],
-        "1.1.0" => [
-            I18N::translate("Added Hungarian and German localization"),
-            I18N::translate("Fixed: 'Unable to delete preset (None)' error message when pressing Delete without selecting a preset."),
-            I18N::translate("Fixed: when clicking Delete, the confirmation dialog used the value of the 'Name' input field instead the name of the selected Preset."),
-            I18N::translate("Fixed: when renaming a preset with the new name being identical to the current name, 'duplicate key' error message was displayed."),
-            I18N::translate("Fixed: after saving/deleting/renaming a preset the preset list was refreshed incorrectly, preventing further rename/delete operations (until page refresh).")
-        ]        
-                
+            "1.1.0" => [
+                I18N::translate("Added Hungarian and German localization"),
+                I18N::translate("Fixed: 'Unable to delete preset (None)' error message when pressing Delete without selecting a preset."),
+                I18N::translate("Fixed: when clicking Delete, the confirmation dialog used the value of the 'Name' input field instead the name of the selected Preset."),
+                I18N::translate("Fixed: when renaming a preset with the new name being identical to the current name, 'duplicate key' error message was displayed."),
+                I18N::translate("Fixed: after saving/deleting/renaming a preset the preset list was refreshed incorrectly, preventing further rename/delete operations (until page refresh).")
+            ],     
+            "1.0.0" =>[
+                I18N::translate("First public release"),
+                I18N::translate("Improved help section, as well as other changes/fixes to certain text elements"),
+                I18N::translate("Warning message is now displayed if Clippings cart module is disabled")
+            ],
+            "0.9.3" => [
+                I18N::translate("Added install/uninstall features"),
+                I18N::translate("Added release log"),
+                I18N::translate("Added Save &amp; Rename command"),
+                I18N::translate("Clicking 'Delete' will now ask for confirmation before deleting the preset"),
+                I18N::translate("Fixed: 'Name' field contained the id of the preset (instead of the name) after clicking 'Preview'; 'Load preset' also lost its stored value, and was reset to '(None)'.")
+            ]   
        ];
         
         ?>
