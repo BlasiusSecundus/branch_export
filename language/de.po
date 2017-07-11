@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Branch export\n"
 "POT-Creation-Date: 2017-07-02 12:31+0200\n"
-"PO-Revision-Date: 2017-07-02 13:35+0200\n"
+"PO-Revision-Date: 2017-07-11 07:03+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -65,13 +65,12 @@ msgstr ""
 
 #: assets/branch_export.js:239
 msgid "A preset name is required."
-msgstr "Ein Name für diese Ast-Voreinstellung ist erforderlich."
+msgstr "Ein Name für diese Ast-Einstellung ist erforderlich."
 
 #: deletebranchexportpreset.php:30
 #, php-format
 msgid "Unable to delete preset '%s'. Preset does not exist?"
-msgstr ""
-"Diese Ast-Voreinstellung '%s' kann nicht gelöscht werden. Existiert sie?"
+msgstr "Diese Ast-Einstellung '%s' kann nicht gelöscht werden. Existiert sie?"
 
 #: module.php:698
 msgid "Full name"
@@ -186,11 +185,11 @@ msgstr "Bitte Baum wählen"
 
 #: module.php:930
 msgid "Select preset(s):"
-msgstr "Bitte Ast Einstellung(en) wählen:"
+msgstr "Ast Einstellung wählen:"
 
 #: module.php:942
 msgid "Select orphaned"
-msgstr "Bitte Waise wählen"
+msgstr "Wähle verwaiste Einstellungen"
 
 #: module.php:946
 msgid "Preset details"
@@ -426,11 +425,11 @@ msgstr "Freigabeprotokoll"
 
 #: module.php:1281 module.php:1413
 msgid "Branch export"
-msgstr "Branch Export"
+msgstr "Branch export"
 
 #: module.php:1288
 msgid "Branch settings"
-msgstr "Branch Einstellungen"
+msgstr "Ast Einstellungen"
 
 #: module.php:1293
 msgid "Load preset:"
@@ -458,7 +457,7 @@ msgstr "Ast exportieren"
 
 #: module.php:1343
 msgid "Save branch export preset"
-msgstr "Ast Voreinstellung speichern"
+msgstr "Ast Einstellung speichern"
 
 #: module.php:1350
 msgid "Save"
@@ -514,4 +513,4 @@ msgstr "Exportiere diesen Ast"
 
 #: module.php:1590
 msgid "No branch export presets defined for this individual."
-msgstr "Keine Ast Voreinstellung defieniert für diese Person."
+msgstr "Keine Ast Einstellung definiert für diese Person."
