@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Branch export\n"
-"POT-Creation-Date: 2017-07-02 12:31+0200\n"
-"PO-Revision-Date: 2017-07-11 07:03+0200\n"
+"POT-Creation-Date: 2017-07-11 07:52+0200\n"
+"PO-Revision-Date: 2017-07-11 07:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.2\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: translate\n"
@@ -23,6 +23,10 @@ msgstr "Der Familienbaum zu dem diese Ast-Daten gehören wurden gelöscht"
 #: assets/branch_config.js:39
 msgid "Orphaned"
 msgstr "Verwaist"
+
+#: assets/branch_config.js:53
+msgid "Delete selected presets?"
+msgstr ""
 
 #: assets/branch_config.js:68
 msgid ""
@@ -344,76 +348,76 @@ msgstr ""
 "in dieser Familie als Endpunkte dazu genommen."
 
 #: module.php:1217
-msgid "Added install/uninstall features"
-msgstr "Added install/uninstall features"
-
-#: module.php:1218
-msgid "Added release log"
-msgstr "Added release log"
-
-#: module.php:1219
-msgid "Added Save &amp; Rename command"
-msgstr "Added Save &amp; Rename command"
-
-#: module.php:1220
-msgid ""
-"Clicking 'Delete' will now ask for confirmation before deleting the preset"
-msgstr "Zusätzliche Dialog Box um Ast Vordefinitionen zu löschen"
-
-#: module.php:1221
-msgid ""
-"Fixed: 'Name' field contained the id of the preset (instead of the name) "
-"after clicking 'Preview'; 'Load preset' also lost its stored value, and was "
-"reset to '(None)'."
-msgstr ""
-"Fixed: 'Name' field contained the id of the preset (instead of the name) "
-"after clicking 'Preview'; 'Load preset' also lost its stored value, and was "
-"reset to '(None)'."
-
-#: module.php:1223
-msgid "First public release"
-msgstr ""
-
-#: module.php:1224
-msgid ""
-"Improved help section, as well as other changes/fixes to certain text "
-"elements"
-msgstr ""
-"Improved help section, as well as other changes/fixes to certain text "
-"elements"
-
-#: module.php:1225
-msgid "Warning message is now displayed if Clippings cart module is disabled"
-msgstr "Warning message is now displayed if Clippings cart module is disabled"
-
-#: module.php:1228
 msgid "Added Hungarian and German localization"
 msgstr ""
 
-#: module.php:1229
+#: module.php:1218
 msgid ""
 "Fixed: 'Unable to delete preset (None)' error message when pressing Delete "
 "without selecting a preset."
 msgstr ""
 
-#: module.php:1230
+#: module.php:1219
 msgid ""
 "Fixed: when clicking Delete, the confirmation dialog used the value of the "
 "'Name' input field instead the name of the selected Preset."
 msgstr ""
 
-#: module.php:1231
+#: module.php:1220
 msgid ""
 "Fixed: when renaming a preset with the new name being identical to the "
 "current name, 'duplicate key' error message was displayed."
 msgstr ""
 
-#: module.php:1232
+#: module.php:1221
 msgid ""
 "Fixed: after saving/deleting/renaming a preset the preset list was refreshed "
 "incorrectly, preventing further rename/delete operations (until page "
 "refresh)."
 msgstr ""
+
+#: module.php:1224
+msgid "First public release"
+msgstr ""
+
+#: module.php:1225
+msgid ""
+"Improved help section, as well as other changes/fixes to certain text "
+"elements"
+msgstr ""
+"Improved help section, as well as other changes/fixes to certain text "
+"elements"
+
+#: module.php:1226
+msgid "Warning message is now displayed if Clippings cart module is disabled"
+msgstr "Warning message is now displayed if Clippings cart module is disabled"
+
+#: module.php:1229
+msgid "Added install/uninstall features"
+msgstr "Added install/uninstall features"
+
+#: module.php:1230
+msgid "Added release log"
+msgstr "Added release log"
+
+#: module.php:1231
+msgid "Added Save &amp; Rename command"
+msgstr "Added Save &amp; Rename command"
+
+#: module.php:1232
+msgid ""
+"Clicking 'Delete' will now ask for confirmation before deleting the preset"
+msgstr "Zusätzliche Dialog Box um Ast Vordefinitionen zu löschen"
+
+#: module.php:1233
+msgid ""
+"Fixed: 'Name' field contained the id of the preset (instead of the name) "
+"after clicking 'Preview'; 'Load preset' also lost its stored value, and was "
+"reset to '(None)'."
+msgstr ""
+"Fixed: 'Name' field contained the id of the preset (instead of the name) "
+"after clicking 'Preview'; 'Load preset' also lost its stored value, and was "
+"reset to '(None)'."
 
 #: module.php:1238
 msgid "Branch export help"

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-07-02 12:30+0200\n"
-"PO-Revision-Date: 2017-07-02 12:31+0200\n"
+"POT-Creation-Date: 2017-07-11 07:53+0200\n"
+"PO-Revision-Date: 2017-07-11 07:54+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: hu_HU\n"
@@ -22,6 +22,10 @@ msgstr "Törölték a fát, melyhez ez a sablon tartozott"
 #: assets/branch_config.js:39
 msgid "Orphaned"
 msgstr "Elárvult"
+
+#: assets/branch_config.js:53
+msgid "Delete selected presets?"
+msgstr "Törli a kijelölt sablonokat?"
 
 #: assets/branch_config.js:68
 msgid ""
@@ -348,52 +352,10 @@ msgstr ""
 "minden tagja végpontnak fog számítani."
 
 #: module.php:1217
-msgid "Added install/uninstall features"
-msgstr "Telepítés/eltávolítás funkció"
-
-#: module.php:1218
-msgid "Added release log"
-msgstr "Kiadási megjegyzések"
-
-#: module.php:1219
-msgid "Added Save &amp; Rename command"
-msgstr "Mentés &amp; Átnevezés funkció"
-
-#: module.php:1220
-msgid ""
-"Clicking 'Delete' will now ask for confirmation before deleting the preset"
-msgstr "A 'Törlés' mostantól megerősítést kér"
-
-#: module.php:1221
-msgid ""
-"Fixed: 'Name' field contained the id of the preset (instead of the name) "
-"after clicking 'Preview'; 'Load preset' also lost its stored value, and was "
-"reset to '(None)'."
-msgstr ""
-"Hibajavítás: Az 'Előnézet' gombra történő kattintás után a 'Név' mezőben a "
-"sablon azonosítója jelent meg a neve helyett. A 'Sablon betöltése' "
-"elvesztett tárolt értékét, és visszaállt '(Nincs)'-re."
-
-#: module.php:1223
-msgid "First public release"
-msgstr "Az első nyilvános verzió"
-
-#: module.php:1224
-msgid ""
-"Improved help section, as well as other changes/fixes to certain text "
-"elements"
-msgstr "Javított Súgó, valamint kisebb javítások egyéb szöveges elemekhez"
-
-#: module.php:1225
-msgid "Warning message is now displayed if Clippings cart module is disabled"
-msgstr ""
-"Figyelmeztető üzenet jelenik meg, ha a Metszési kosár modul nincs aktiválva"
-
-#: module.php:1228
 msgid "Added Hungarian and German localization"
 msgstr "Magyar és német fordítás"
 
-#: module.php:1229
+#: module.php:1218
 msgid ""
 "Fixed: 'Unable to delete preset (None)' error message when pressing Delete "
 "without selecting a preset."
@@ -401,7 +363,7 @@ msgstr ""
 "Hibajavítás: 'Unable to delete preset (None)'  hibaüzenet jelent meg, ha a "
 "'Törlés' gombra kattintott, de nem választott sablont."
 
-#: module.php:1230
+#: module.php:1219
 msgid ""
 "Fixed: when clicking Delete, the confirmation dialog used the value of the "
 "'Name' input field instead the name of the selected Preset."
@@ -410,7 +372,7 @@ msgstr ""
 "tévesen a 'Név' mező értékét jelenítette meg a törlendő sablon neveként, nem "
 "a legörülő menüből kiválasztott sablon tényleges nevét."
 
-#: module.php:1231
+#: module.php:1220
 msgid ""
 "Fixed: when renaming a preset with the new name being identical to the "
 "current name, 'duplicate key' error message was displayed."
@@ -418,7 +380,7 @@ msgstr ""
 "Hibajavítás: egy sablon átnevezése során, amennyiben az új név megegyezett a "
 "jelenlegivel, 'duplicate entry' hibaüzenet jelent meg."
 
-#: module.php:1232
+#: module.php:1221
 msgid ""
 "Fixed: after saving/deleting/renaming a preset the preset list was refreshed "
 "incorrectly, preventing further rename/delete operations (until page "
@@ -427,6 +389,48 @@ msgstr ""
 "Hibajavítás: sablon mentése/törlése/átnevezése után a sablonlista "
 "helytelenül frissült, ezért az oldal újratöltéséig nem működött a törlés és "
 "átnevezés funkció."
+
+#: module.php:1224
+msgid "First public release"
+msgstr "Az első nyilvános verzió"
+
+#: module.php:1225
+msgid ""
+"Improved help section, as well as other changes/fixes to certain text "
+"elements"
+msgstr "Javított Súgó, valamint kisebb javítások egyéb szöveges elemekhez"
+
+#: module.php:1226
+msgid "Warning message is now displayed if Clippings cart module is disabled"
+msgstr ""
+"Figyelmeztető üzenet jelenik meg, ha a Metszési kosár modul nincs aktiválva"
+
+#: module.php:1229
+msgid "Added install/uninstall features"
+msgstr "Telepítés/eltávolítás funkció"
+
+#: module.php:1230
+msgid "Added release log"
+msgstr "Kiadási megjegyzések"
+
+#: module.php:1231
+msgid "Added Save &amp; Rename command"
+msgstr "Mentés &amp; Átnevezés funkció"
+
+#: module.php:1232
+msgid ""
+"Clicking 'Delete' will now ask for confirmation before deleting the preset"
+msgstr "A 'Törlés' mostantól megerősítést kér"
+
+#: module.php:1233
+msgid ""
+"Fixed: 'Name' field contained the id of the preset (instead of the name) "
+"after clicking 'Preview'; 'Load preset' also lost its stored value, and was "
+"reset to '(None)'."
+msgstr ""
+"Hibajavítás: Az 'Előnézet' gombra történő kattintás után a 'Név' mezőben a "
+"sablon azonosítója jelent meg a neve helyett. A 'Sablon betöltése' "
+"elvesztett tárolt értékét, és visszaállt '(Nincs)'-re."
 
 #: module.php:1238
 msgid "Branch export help"
