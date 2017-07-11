@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Branch export\n"
-"POT-Creation-Date: 2017-07-11 07:52+0200\n"
-"PO-Revision-Date: 2017-07-11 08:51+0200\n"
+"POT-Creation-Date: 2017-07-11 16:03+0200\n"
+"PO-Revision-Date: 2017-07-11 16:03+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.2\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: translate\n"
@@ -24,11 +24,15 @@ msgstr "Der Familienbaum zu dem diese Ast-Daten gehören wurden gelöscht"
 msgid "Orphaned"
 msgstr "Verwaist"
 
-#: assets/branch_config.js:53
+#: assets/branch_config.js:55
+msgid "No preset selected."
+msgstr ""
+
+#: assets/branch_config.js:59
 msgid "Delete selected presets?"
 msgstr "Selektierte Ast Einstellung wirklich löschen?"
 
-#: assets/branch_config.js:68
+#: assets/branch_config.js:74
 msgid ""
 "Are you sure you want to uninstall this module?\n"
 "\n"
@@ -175,7 +179,7 @@ msgstr "Einstellungen sind nur für Administratoren verfügbar."
 msgid "Manage presets"
 msgstr "Ast Einstellungen verwalten"
 
-#: module.php:917 module.php:948
+#: module.php:917 module.php:950
 msgid "Tree:"
 msgstr "Stammbaum:"
 
@@ -195,35 +199,35 @@ msgstr "Ast Einstellung wählen:"
 msgid "Select orphaned"
 msgstr "Wähle verwaiste Einstellungen"
 
-#: module.php:946
+#: module.php:947
 msgid "Preset details"
 msgstr "Ast Einstellung Detail"
 
-#: module.php:951 module.php:1348
+#: module.php:954 module.php:1353
 msgid "Name:"
 msgstr "Name:"
 
-#: module.php:954
+#: module.php:957
 msgid "Pivot:"
 msgstr "Drehpunkt:"
 
-#: module.php:957
+#: module.php:960
 msgid "Cutoff:"
 msgstr "Endpunkt:"
 
-#: module.php:965
+#: module.php:970
 msgid "Delete selected presets"
 msgstr "Selektierte Ast Einstellung löschen"
 
-#: module.php:968
+#: module.php:973
 msgid "Copy selected presets to:"
 msgstr "Kopiere selektierte Ast Einstellung zu:"
 
-#: module.php:983
+#: module.php:988
 msgid "uninstall"
 msgstr "deinstallieren"
 
-#: module.php:1009
+#: module.php:1014
 #, php-format
 msgid ""
 "Invalid pivot point selected: %s. No such individual found in the current "
@@ -231,41 +235,41 @@ msgid ""
 msgstr ""
 "Ungültigen Drehpunk selektiert: %s. Namen im jetzigen Baum nicht gefunden."
 
-#: module.php:1009
+#: module.php:1014
 msgid "No pivot point selected."
 msgstr "Kein Drehpunkt selektiert."
 
-#: module.php:1017
+#: module.php:1022
 msgid "Branch preview"
 msgstr "Branch Vorschau"
 
-#: module.php:1020
+#: module.php:1025
 msgid "Pivot individual"
 msgstr "Drehpunkt Person"
 
-#: module.php:1023
+#: module.php:1028
 msgid "Cutoff points:"
 msgstr "Endpunkte:"
 
-#: module.php:1043
+#: module.php:1048
 #, php-format
 msgid "%s records in the branch"
 msgstr "%s Datensätze in diesem Baum"
 
-#: module.php:1180
+#: module.php:1185
 #, php-format
 msgid "Cutoff point %d:"
 msgstr "Endpunkt %d:"
 
-#: module.php:1187
+#: module.php:1192
 msgid "Remove cutoff point"
 msgstr "Endpunkt löschen"
 
-#: module.php:1201
+#: module.php:1206
 msgid "How branch export works"
 msgstr "So funktioniert Branch Export"
 
-#: module.php:1202
+#: module.php:1207
 msgid ""
 "Branch export module helps you export a portion of a tree in a way that is "
 "not possible using the built-in export features."
@@ -273,7 +277,7 @@ msgstr ""
 "Das Branch Export Modul hilft dir einen Teil (Ast) eines Baumes zu "
 "exportieren. "
 
-#: module.php:1203
+#: module.php:1208
 msgid ""
 "Branch export traverses the entire tree, starting from a specific individual "
 "(called pivot point). First it will select the immediate relatives of the "
@@ -290,15 +294,15 @@ msgstr ""
 "ein vordefinierter Endpunkt erreicht. Das Ende ist erreicht wenn alle "
 "verlinkten Datensätze abgearbeitet sind."
 
-#: module.php:1204
+#: module.php:1209
 msgid "You can use an unlimited number of cutoff points."
 msgstr "Du kannst so viele Endpunkte wie du willst definieren."
 
-#: module.php:1206
+#: module.php:1211
 msgid "What records are included in the branch?"
 msgstr "Was für Datensätze sind in diesem Ast?"
 
-#: module.php:1206
+#: module.php:1211
 msgid ""
 "The pivot point is always included. Cutoff points are also included if they "
 "can be reached during the traversal, but the traversal algorithm will stop "
@@ -313,7 +317,7 @@ msgstr ""
 "inbegriffen ist dann werden alle dazu gehörenden Datensätze (Familien, Media "
 "Objekte, Sources, Notes, ...) auch dazu genommen. "
 
-#: module.php:1207
+#: module.php:1212
 msgid ""
 "Note: Exporting the content of the branch requires that the Clippings cart "
 "module is installed and activated."
@@ -321,11 +325,11 @@ msgstr ""
 "Bemerkung: Um die Daten dieses Astes zu exportieren ist das Sammelbehälter "
 "Modul erforderlich und muss aktiviert sein."
 
-#: module.php:1209
+#: module.php:1214
 msgid "What records can be used as pivot point?"
 msgstr "Welche Datensätze können als Drehpunkte benutzt werden?"
 
-#: module.php:1209
+#: module.php:1214
 msgid ""
 "Only individuals can be used as pivot point. Any individual in the tree can "
 "be used."
@@ -333,11 +337,11 @@ msgstr ""
 "Es können nur Personen als Drehpunkte benutzt werden.  Es ist egal welche "
 "Person es ist."
 
-#: module.php:1211
+#: module.php:1216
 msgid "What records can be used as cutoff points?"
 msgstr "Welche Datensätze können als Endpunkte benutzt werden?"
 
-#: module.php:1211
+#: module.php:1216
 msgid ""
 "Only individuals and families can be used as cutoff points. Any individual "
 "or family in the tree can be used. Using a family as cutoff point is a "
@@ -347,40 +351,40 @@ msgstr ""
 "werden. Wenn ein Familien Datensatz gewählt wird, dann werden alle Personen "
 "in dieser Familie als Endpunkte dazu genommen."
 
-#: module.php:1217
+#: module.php:1222
 msgid "Added Hungarian and German localization"
 msgstr ""
 
-#: module.php:1218
+#: module.php:1223
 msgid ""
 "Fixed: 'Unable to delete preset (None)' error message when pressing Delete "
 "without selecting a preset."
 msgstr ""
 
-#: module.php:1219
+#: module.php:1224
 msgid ""
 "Fixed: when clicking Delete, the confirmation dialog used the value of the "
 "'Name' input field instead the name of the selected Preset."
 msgstr ""
 
-#: module.php:1220
+#: module.php:1225
 msgid ""
 "Fixed: when renaming a preset with the new name being identical to the "
 "current name, 'duplicate key' error message was displayed."
 msgstr ""
 
-#: module.php:1221
+#: module.php:1226
 msgid ""
 "Fixed: after saving/deleting/renaming a preset the preset list was refreshed "
 "incorrectly, preventing further rename/delete operations (until page "
 "refresh)."
 msgstr ""
 
-#: module.php:1224
+#: module.php:1229
 msgid "First public release"
 msgstr ""
 
-#: module.php:1225
+#: module.php:1230
 msgid ""
 "Improved help section, as well as other changes/fixes to certain text "
 "elements"
@@ -388,28 +392,28 @@ msgstr ""
 "Improved help section, as well as other changes/fixes to certain text "
 "elements"
 
-#: module.php:1226
+#: module.php:1231
 msgid "Warning message is now displayed if Clippings cart module is disabled"
 msgstr "Warning message is now displayed if Clippings cart module is disabled"
 
-#: module.php:1229
+#: module.php:1234
 msgid "Added install/uninstall features"
 msgstr "Added install/uninstall features"
 
-#: module.php:1230
+#: module.php:1235
 msgid "Added release log"
 msgstr "Added release log"
 
-#: module.php:1231
+#: module.php:1236
 msgid "Added Save &amp; Rename command"
 msgstr "Added Save &amp; Rename command"
 
-#: module.php:1232
+#: module.php:1237
 msgid ""
 "Clicking 'Delete' will now ask for confirmation before deleting the preset"
 msgstr "Zusätzliche Dialog Box um Ast Vordefinitionen zu löschen"
 
-#: module.php:1233
+#: module.php:1238
 msgid ""
 "Fixed: 'Name' field contained the id of the preset (instead of the name) "
 "after clicking 'Preview'; 'Load preset' also lost its stored value, and was "
@@ -419,83 +423,83 @@ msgstr ""
 "after clicking 'Preview'; 'Load preset' also lost its stored value, and was "
 "reset to '(None)'."
 
-#: module.php:1238
+#: module.php:1243
 msgid "Branch export help"
 msgstr "Branch Export Hilfe"
 
-#: module.php:1244
+#: module.php:1249
 msgid "Release log"
 msgstr "Freigabeprotokoll"
 
-#: module.php:1281 module.php:1413
+#: module.php:1286 module.php:1418
 msgid "Branch export"
 msgstr "Branch export"
 
-#: module.php:1288
+#: module.php:1293
 msgid "Branch settings"
 msgstr "Ast Einstellungen"
 
-#: module.php:1293
+#: module.php:1298
 msgid "Load preset:"
 msgstr "Ast Einstellung laden:"
 
-#: module.php:1295
+#: module.php:1300
 msgid "(None)"
 msgstr "(Nichts)"
 
-#: module.php:1308
+#: module.php:1313
 msgid "Pivot point:"
 msgstr "Drehpunkt:"
 
-#: module.php:1331
+#: module.php:1336
 msgid "Add cutoff point"
 msgstr "Neuer Endpunkt "
 
-#: module.php:1336
+#: module.php:1341
 msgid "Preview branch"
 msgstr "Ast Vorschau"
 
-#: module.php:1337
+#: module.php:1342
 msgid "Export branch"
 msgstr "Ast exportieren"
 
-#: module.php:1343
+#: module.php:1348
 msgid "Save branch export preset"
 msgstr "Ast Einstellung speichern"
 
-#: module.php:1350
+#: module.php:1355
 msgid "Save"
 msgstr "Speichern"
 
-#: module.php:1351
+#: module.php:1356
 msgid "Rename &amp; Save"
 msgstr "Umbenennen &amp; Speichern"
 
-#: module.php:1352
+#: module.php:1357
 msgid "Delete"
 msgstr "Löschen"
 
-#: module.php:1370
+#: module.php:1375
 msgid "Clippings cart module is disabled. 'Export branch' will not work!"
 msgstr ""
 "Sammelbehälter Modul ist deaktiviert. 'Export branch' wird nicht "
 "funktionieren!"
 
-#: module.php:1419
+#: module.php:1424
 msgid "Allows exporting a branch of a tree. Requires Clippings cart module!"
 msgstr ""
 "Erlaubt das exportieren eines Astes dieses Baumes. Benötigt das "
 "Sammelbehälter Modul!"
 
-#: module.php:1528
+#: module.php:1533
 msgid "Config"
 msgstr "Einstellungen"
 
-#: module.php:1530
+#: module.php:1535
 msgid "Help"
 msgstr "Hilfe"
 
-#: module.php:1561
+#: module.php:1566
 msgid ""
 "Branch export module needs a database update. Please visit the module's main "
 "page to perform this update!"
@@ -503,18 +507,18 @@ msgstr ""
 "Das Branch Export Modul benötigt ein Datenbank update. Bitte der Hauptseite "
 "dieses Modules die Funktion ausführen!"
 
-#: module.php:1572
+#: module.php:1577
 msgid "Export new branch from:"
 msgstr "Exportiere neuen Ast von:"
 
-#: module.php:1573
+#: module.php:1578
 msgid "Export preset branch:"
 msgstr "Exportiere Ast Einstellung:"
 
-#: module.php:1587
+#: module.php:1592
 msgid "Export this branch"
 msgstr "Exportiere diesen Ast"
 
-#: module.php:1590
+#: module.php:1595
 msgid "No branch export presets defined for this individual."
 msgstr "Keine Ast Einstellung definiert für diese Person."

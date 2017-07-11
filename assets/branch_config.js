@@ -12,6 +12,7 @@ function OnTreeIdChange(event)
     {
         jQuery("#presets option").hide();
         jQuery("#presets option[data-tree='"+tree_id+"']").show();
+        jQuery("#presets option:not(:visible)").prop("selected",false);
     }
 }
 
@@ -50,7 +51,13 @@ function OnPresetSelected(event)
 
 function OnPresetDelete(event)
 {
-    if(!confirm(translator.translate("Delete selected presets?")))
+    if(jQuery("#presets option:selected").length === 0)
+    {
+        alert(translator.translate("No preset selected."));
+        event.stopPropagation();
+        event.preventDefault();
+    }
+    else if(!confirm(translator.translate("Delete selected presets?")))
     {
         event.stopPropagation();
         event.preventDefault();
@@ -78,7 +85,8 @@ jQuery(function(){
         "Orphaned",
         "The tree to which this preset belonged was deleted.",
         "Are you sure you want to uninstall this module?\n\n(NOTE: all presets and module-related settings will be permanently deleted and the module will be disabled. Module files will not be removed. They must be manually deleted. The module can be reactivated on the 'Control Panel / Modules / Module administration' page.)",
-        "Delete selected presets?"
+        "Delete selected presets?",
+        "No preset selected."
         ]);
     
     jQuery("#tree_id").change(OnTreeIdChange).trigger("change");

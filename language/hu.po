@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-07-11 07:53+0200\n"
-"PO-Revision-Date: 2017-07-11 07:54+0200\n"
+"POT-Creation-Date: 2017-07-11 16:02+0200\n"
+"PO-Revision-Date: 2017-07-11 16:06+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: hu_HU\n"
@@ -23,11 +23,15 @@ msgstr "Törölték a fát, melyhez ez a sablon tartozott"
 msgid "Orphaned"
 msgstr "Elárvult"
 
-#: assets/branch_config.js:53
+#: assets/branch_config.js:55
+msgid "No preset selected."
+msgstr "Nem jelölt ki egy sablont sem."
+
+#: assets/branch_config.js:59
 msgid "Delete selected presets?"
 msgstr "Törli a kijelölt sablonokat?"
 
-#: assets/branch_config.js:68
+#: assets/branch_config.js:74
 msgid ""
 "Are you sure you want to uninstall this module?\n"
 "\n"
@@ -176,7 +180,7 @@ msgstr ""
 msgid "Manage presets"
 msgstr "Mentett sablonok kezelése"
 
-#: module.php:917 module.php:948
+#: module.php:917 module.php:950
 msgid "Tree:"
 msgstr "Fa:"
 
@@ -196,35 +200,35 @@ msgstr "Sablon(ok) kijelölése:"
 msgid "Select orphaned"
 msgstr "Elárvultak kijelölése"
 
-#: module.php:946
+#: module.php:947
 msgid "Preset details"
 msgstr "A sablon adatai"
 
-#: module.php:951 module.php:1348
+#: module.php:954 module.php:1353
 msgid "Name:"
 msgstr "Név:"
 
-#: module.php:954
-msgid "Pivot:"
-msgstr "K. pont:"
-
 #: module.php:957
-msgid "Cutoff:"
-msgstr "V. pont:"
+msgid "Pivot:"
+msgstr "Kiindulópont:"
 
-#: module.php:965
+#: module.php:960
+msgid "Cutoff:"
+msgstr "Végpont:"
+
+#: module.php:970
 msgid "Delete selected presets"
 msgstr "Kijelöltek törlése"
 
-#: module.php:968
+#: module.php:973
 msgid "Copy selected presets to:"
 msgstr "Kijelöltek másolása ide:"
 
-#: module.php:983
+#: module.php:988
 msgid "uninstall"
 msgstr "eltávolítás"
 
-#: module.php:1009
+#: module.php:1014
 #, php-format
 msgid ""
 "Invalid pivot point selected: %s. No such individual found in the current "
@@ -233,41 +237,41 @@ msgstr ""
 "Érvénytelen kiindulópontot választott: %s. Nincs ilyen személy ebben a "
 "családfában."
 
-#: module.php:1009
+#: module.php:1014
 msgid "No pivot point selected."
 msgstr "Nem választott kiindulópontot."
 
-#: module.php:1017
+#: module.php:1022
 msgid "Branch preview"
 msgstr "Előnézet"
 
-#: module.php:1020
+#: module.php:1025
 msgid "Pivot individual"
 msgstr "Kiindulópont"
 
-#: module.php:1023
+#: module.php:1028
 msgid "Cutoff points:"
 msgstr "Végpontok:"
 
-#: module.php:1043
+#: module.php:1048
 #, php-format
 msgid "%s records in the branch"
 msgstr "%s rekordok ezen az ágon"
 
-#: module.php:1180
+#: module.php:1185
 #, php-format
 msgid "Cutoff point %d:"
 msgstr "%d. végpont:"
 
-#: module.php:1187
+#: module.php:1192
 msgid "Remove cutoff point"
 msgstr "Végpont eltávolítása"
 
-#: module.php:1201
+#: module.php:1206
 msgid "How branch export works"
 msgstr "Így működik a Branch export modul"
 
-#: module.php:1202
+#: module.php:1207
 msgid ""
 "Branch export module helps you export a portion of a tree in a way that is "
 "not possible using the built-in export features."
@@ -275,7 +279,7 @@ msgstr ""
 "A Branch export modul segítségével a családfa egy részét exportálhatja olyan "
 "módon, ahogy a Webtrees beépített exportálási funkcióival nem lehetséges."
 
-#: module.php:1203
+#: module.php:1208
 msgid ""
 "Branch export traverses the entire tree, starting from a specific individual "
 "(called pivot point). First it will select the immediate relatives of the "
@@ -293,15 +297,15 @@ msgstr ""
 "bejárása leáll, ha az összes olyan személyt feldolgozta, melyek elérését a "
 "végpontként megadott személyek nem blokkolták."
 
-#: module.php:1204
+#: module.php:1209
 msgid "You can use an unlimited number of cutoff points."
 msgstr "Korlátlan számú végpontot megadhat."
 
-#: module.php:1206
+#: module.php:1211
 msgid "What records are included in the branch?"
 msgstr "Mely rekordokat veszi fel a modul az exportált ágba?"
 
-#: module.php:1206
+#: module.php:1211
 msgid ""
 "The pivot point is always included. Cutoff points are also included if they "
 "can be reached during the traversal, but the traversal algorithm will stop "
@@ -317,7 +321,7 @@ msgstr ""
 "ágba, minden kapcsolt rekord (család, média, forrás, megjegyzés, "
 "repozitórium) bekerül."
 
-#: module.php:1207
+#: module.php:1212
 msgid ""
 "Note: Exporting the content of the branch requires that the Clippings cart "
 "module is installed and activated."
@@ -325,11 +329,11 @@ msgstr ""
 "Megjegyzés: az exportálás végrehajtásához a Metszési kosár (Clippings cart) "
 "modul telepítése és aktiválása szükséges."
 
-#: module.php:1209
+#: module.php:1214
 msgid "What records can be used as pivot point?"
 msgstr "Mely rekordok lehetnek kiindulópontok?"
 
-#: module.php:1209
+#: module.php:1214
 msgid ""
 "Only individuals can be used as pivot point. Any individual in the tree can "
 "be used."
@@ -337,11 +341,11 @@ msgstr ""
 "Csak személyek lehetnek kiindulópontok. A családfában megtalálható bármely "
 "személy lehet kiindulópont."
 
-#: module.php:1211
+#: module.php:1216
 msgid "What records can be used as cutoff points?"
 msgstr "Milyen rekordok lehetnek végpontok?"
 
-#: module.php:1211
+#: module.php:1216
 msgid ""
 "Only individuals and families can be used as cutoff points. Any individual "
 "or family in the tree can be used. Using a family as cutoff point is a "
@@ -351,11 +355,11 @@ msgstr ""
 "lehet végpont. Amennyiben egy családot vesz fel végpontként, akkor a család "
 "minden tagja végpontnak fog számítani."
 
-#: module.php:1217
+#: module.php:1222
 msgid "Added Hungarian and German localization"
 msgstr "Magyar és német fordítás"
 
-#: module.php:1218
+#: module.php:1223
 msgid ""
 "Fixed: 'Unable to delete preset (None)' error message when pressing Delete "
 "without selecting a preset."
@@ -363,7 +367,7 @@ msgstr ""
 "Hibajavítás: 'Unable to delete preset (None)'  hibaüzenet jelent meg, ha a "
 "'Törlés' gombra kattintott, de nem választott sablont."
 
-#: module.php:1219
+#: module.php:1224
 msgid ""
 "Fixed: when clicking Delete, the confirmation dialog used the value of the "
 "'Name' input field instead the name of the selected Preset."
@@ -372,7 +376,7 @@ msgstr ""
 "tévesen a 'Név' mező értékét jelenítette meg a törlendő sablon neveként, nem "
 "a legörülő menüből kiválasztott sablon tényleges nevét."
 
-#: module.php:1220
+#: module.php:1225
 msgid ""
 "Fixed: when renaming a preset with the new name being identical to the "
 "current name, 'duplicate key' error message was displayed."
@@ -380,7 +384,7 @@ msgstr ""
 "Hibajavítás: egy sablon átnevezése során, amennyiben az új név megegyezett a "
 "jelenlegivel, 'duplicate entry' hibaüzenet jelent meg."
 
-#: module.php:1221
+#: module.php:1226
 msgid ""
 "Fixed: after saving/deleting/renaming a preset the preset list was refreshed "
 "incorrectly, preventing further rename/delete operations (until page "
@@ -390,39 +394,39 @@ msgstr ""
 "helytelenül frissült, ezért az oldal újratöltéséig nem működött a törlés és "
 "átnevezés funkció."
 
-#: module.php:1224
+#: module.php:1229
 msgid "First public release"
 msgstr "Az első nyilvános verzió"
 
-#: module.php:1225
+#: module.php:1230
 msgid ""
 "Improved help section, as well as other changes/fixes to certain text "
 "elements"
 msgstr "Javított Súgó, valamint kisebb javítások egyéb szöveges elemekhez"
 
-#: module.php:1226
+#: module.php:1231
 msgid "Warning message is now displayed if Clippings cart module is disabled"
 msgstr ""
 "Figyelmeztető üzenet jelenik meg, ha a Metszési kosár modul nincs aktiválva"
 
-#: module.php:1229
+#: module.php:1234
 msgid "Added install/uninstall features"
 msgstr "Telepítés/eltávolítás funkció"
 
-#: module.php:1230
+#: module.php:1235
 msgid "Added release log"
 msgstr "Kiadási megjegyzések"
 
-#: module.php:1231
+#: module.php:1236
 msgid "Added Save &amp; Rename command"
 msgstr "Mentés &amp; Átnevezés funkció"
 
-#: module.php:1232
+#: module.php:1237
 msgid ""
 "Clicking 'Delete' will now ask for confirmation before deleting the preset"
 msgstr "A 'Törlés' mostantól megerősítést kér"
 
-#: module.php:1233
+#: module.php:1238
 msgid ""
 "Fixed: 'Name' field contained the id of the preset (instead of the name) "
 "after clicking 'Preview'; 'Load preset' also lost its stored value, and was "
@@ -432,83 +436,83 @@ msgstr ""
 "sablon azonosítója jelent meg a neve helyett. A 'Sablon betöltése' "
 "elvesztett tárolt értékét, és visszaállt '(Nincs)'-re."
 
-#: module.php:1238
+#: module.php:1243
 msgid "Branch export help"
 msgstr "Branch export súgó"
 
-#: module.php:1244
+#: module.php:1249
 msgid "Release log"
 msgstr "Kiadási megjegyzések"
 
-#: module.php:1281 module.php:1413
+#: module.php:1286 module.php:1418
 msgid "Branch export"
 msgstr "Branch export"
 
-#: module.php:1288
+#: module.php:1293
 msgid "Branch settings"
 msgstr "Ág beállításai"
 
-#: module.php:1293
+#: module.php:1298
 msgid "Load preset:"
 msgstr "Sablon betöltése:"
 
-#: module.php:1295
+#: module.php:1300
 msgid "(None)"
 msgstr "(Nincs)"
 
-#: module.php:1308
+#: module.php:1313
 msgid "Pivot point:"
 msgstr "Kiindulópont:"
 
-#: module.php:1331
+#: module.php:1336
 msgid "Add cutoff point"
 msgstr "Végpont hozzáadása"
 
-#: module.php:1336
+#: module.php:1341
 msgid "Preview branch"
 msgstr "Előnézet"
 
-#: module.php:1337
+#: module.php:1342
 msgid "Export branch"
 msgstr "Exportálás"
 
-#: module.php:1343
+#: module.php:1348
 msgid "Save branch export preset"
 msgstr "Sablon mentése"
 
-#: module.php:1350
+#: module.php:1355
 msgid "Save"
 msgstr "Mentés"
 
-#: module.php:1351
+#: module.php:1356
 msgid "Rename &amp; Save"
 msgstr "Átnevezés &amp; mentés"
 
-#: module.php:1352
+#: module.php:1357
 msgid "Delete"
 msgstr "Törlés"
 
-#: module.php:1370
+#: module.php:1375
 msgid "Clippings cart module is disabled. 'Export branch' will not work!"
 msgstr ""
 "A Metszési kosár (Clippings cart) module nincs aktiválva. Az exportálás nem "
 "fog működni!"
 
-#: module.php:1419
+#: module.php:1424
 msgid "Allows exporting a branch of a tree. Requires Clippings cart module!"
 msgstr ""
 "Lehetővé teszi a családfa egyedi módon meghatározott részletének az "
 "exportálását. Az exportáláshoz a Metszési kosár modulra is szükség van!"
 
-#: module.php:1528
+#: module.php:1533
 msgid "Config"
 msgstr "Beállítások"
 
-#: module.php:1530
+#: module.php:1535
 msgid "Help"
 msgstr "Súgó"
 
-#: module.php:1561
+#: module.php:1566
 msgid ""
 "Branch export module needs a database update. Please visit the module's main "
 "page to perform this update!"
@@ -516,19 +520,19 @@ msgstr ""
 "A Branch export modul további használatához az adatbázis frissítése "
 "szükséges. Kérjük, keresse fel a modul főoldalát a frissítés végrehajtásához!"
 
-#: module.php:1572
+#: module.php:1577
 msgid "Export new branch from:"
 msgstr "Új ág exportálása innen kiindulva:"
 
-#: module.php:1573
+#: module.php:1578
 msgid "Export preset branch:"
 msgstr "Sablon exportálása:"
 
-#: module.php:1587
+#: module.php:1592
 msgid "Export this branch"
 msgstr "Ág exportálása"
 
-#: module.php:1590
+#: module.php:1595
 msgid "No branch export presets defined for this individual."
 msgstr "Még nem hozott létre exportálási sablont ehhez a személyhez."
 
