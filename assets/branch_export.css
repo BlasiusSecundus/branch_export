@@ -113,10 +113,8 @@ and open the template in the editor.
     min-height: 100px;
 }
 
-.selected-preset-details label
+.selected-preset-details tr td:first-child
 {
-    display: inline-block;
-    width: 70px;
     font-weight: bold;
 }
 .preset-orphaned

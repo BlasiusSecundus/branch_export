@@ -943,19 +943,24 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
                                 </p>
                             </td>
                             <td class="optionbox selected-preset-details">
-                                <h5><?php echo I18N::translate("Preset details")?></h5>
-                                <p>
-                                    <label><?php echo I18N::translate("Tree:")?></label><span id="selected_preset_tree"></span>
-                                </p>
-                                <p>
-                                    <label><?php echo I18N::translate("Name:")?></label><span id="selected_preset_name"></span>
-                                </p>
-                                <p>
-                                    <label><?php echo I18N::translate("Pivot:")?></label><span id="selected_preset_pivot"></span>
-                                </p>
-                                 <p>
-                                    <label><?php echo I18N::translate("Cutoff:")?></label><span id="selected_preset_cutoff"></span>
-                                </p>
+                                <table>
+                                    <caption><h5><?php echo I18N::translate("Preset details")?></h5></caption>
+                                    <tbody>
+                                        <tr>
+                                            <td><?php echo I18N::translate("Tree:")?></td>
+                                            <td id="selected_preset_tree"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo I18N::translate("Name:")?></td><td id="selected_preset_name"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo I18N::translate("Pivot:")?></td><td id="selected_preset_pivot"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo I18N::translate("Cutoff:")?></td><td id="selected_preset_cutoff"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </td>
                         </tr>
                         <tr>
