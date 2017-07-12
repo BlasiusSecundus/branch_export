@@ -104,6 +104,11 @@ and open the template in the editor.
     color: red;
 }
 
+#saved_branch_presets.changed
+{
+    font-style:  italic;
+}
+
 /*Config*/
 
 #presets 

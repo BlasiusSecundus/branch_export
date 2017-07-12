@@ -39,7 +39,20 @@ function postWindow(script,post_data,window_specs)
 
 function branchExport_OnAddCutoffPointClick()
 {
+    branchExport_AddCutoffPoint();
+    branchExport_SetPresetChangedState(true);
     
+}
+
+function branchExport_SetPresetChangedState(is_changed)
+{
+   if(is_changed && jQuery("#saved_branch_presets").val() !== "NULL")
+        jQuery("#saved_branch_presets").addClass("changed"); 
+    else 
+        jQuery("#saved_branch_presets").removeClass("changed");
+}
+function branchExport_AddCutoffPoint()
+{
     var num_cutoff_points = jQuery("#branchexp .branch-cutoff-row").length;
     var last_cutoff_point = jQuery(jQuery("#branchexp .branch-cutoff-row")[num_cutoff_points-1]);
     
@@ -50,8 +63,8 @@ function branchExport_OnAddCutoffPointClick()
     autocomplete(new_cutoff_point.find("input"));
     
     branchExport_UpdateCutoffPointLabelsAndIDs();
-    
 }
+
 function branchExport_UpdateCutoffPointLabelsAndIDs()
 {
     var index = 1;
@@ -69,6 +82,16 @@ function branchExport_UpdateCutoffPointLabelsAndIDs()
         index++;
     });
 }
+/**
+ * Removes all cutoff points.
+ * @returns {undefined}
+ */
+function branchExport_ClearCutoffPoints()
+{
+    jQuery(".branch-cutoff-row").not(":first").remove();
+    jQuery(".branch-cutoff-row:first input").val("");
+}
+
 function branchExport_RemoveCutoffPoint(event)
 {
     event.preventDefault();
@@ -123,8 +146,14 @@ function branchExport_OnPresetSelected(event)
 {
     var id = $(event.target).val(), name = $(event.target).find(":selected").text();
     
-    if(id === "NULL") 
+    jQuery(event.target).removeClass("changed");
+    
+    branchExport_ClearCutoffPoints();
+    
+    if(id === "NULL") {
+         jQuery("#branch_pivot").val("");
         return;
+    }
     
     var pivot = $(event.target).find(":selected").data("pivot"), cutoff = $(event.target).find(":selected").data("cutoff");
     
@@ -134,8 +163,6 @@ function branchExport_OnPresetSelected(event)
     
     var cutoff_array = cutoff.split(",");
     
-    jQuery(".branch-cutoff-row").not(":first").remove();
-    
     for(var i= 0; i<cutoff_array.length ; i++)
     {
         var cutoff_element_id = "branch_cutoff_"+(i+1);
@@ -143,7 +170,7 @@ function branchExport_OnPresetSelected(event)
 
         while(cutoff_element.length === 0)
         {
-            branchExport_OnAddCutoffPointClick();
+            branchExport_AddCutoffPoint();
             branchExport_UpdateCutoffPointLabelsAndIDs();
             cutoff_element = jQuery("#"+cutoff_element_id);
         }
@@ -173,6 +200,7 @@ function branchExport_SaveDelete_AjaxSuccessFunction(responsedata)
     else
     {
             branchExport_UpdatePresetList(responsedata["presets"],responsedata["selected"]);
+            branchExport_SetPresetChangedState(false);
     }
 }
 
@@ -265,7 +293,7 @@ function branchExport_OnSavePreset(moduledir, rename)
 
 function branchExport_OnCutoffOrPivotChanged()
 {
-    jQuery("#saved_branch_presets").val("NULL");
+    branchExport_SetPresetChangedState(true);
 }
 
 jQuery(function(){
