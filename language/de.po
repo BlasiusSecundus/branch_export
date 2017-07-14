@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Branch export\n"
-"POT-Creation-Date: 2017-07-11 16:03+0200\n"
-"PO-Revision-Date: 2017-07-11 16:03+0200\n"
+"POT-Creation-Date: 2017-07-14 15:40+0200\n"
+"PO-Revision-Date: 2017-07-14 15:41+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -16,23 +16,27 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: assets/branch_config.js:39
+#: assets/branch_config.js:40
 msgid "The tree to which this preset belonged was deleted"
 msgstr "Der Familienbaum zu dem diese Ast-Daten gehören wurden gelöscht"
 
-#: assets/branch_config.js:39
+#: assets/branch_config.js:40
 msgid "Orphaned"
 msgstr "Verwaist"
 
-#: assets/branch_config.js:55
+#: assets/branch_config.js:56
 msgid "No preset selected."
 msgstr ""
 
-#: assets/branch_config.js:59
+#: assets/branch_config.js:60
 msgid "Delete selected presets?"
 msgstr "Selektierte Ast Einstellung wirklich löschen?"
 
-#: assets/branch_config.js:74
+#: assets/branch_config.js:73
+msgid "No orphaned presets found."
+msgstr ""
+
+#: assets/branch_config.js:81
 msgid ""
 "Are you sure you want to uninstall this module?\n"
 "\n"
@@ -48,21 +52,21 @@ msgstr ""
 "nicht gelöscht, diese müssen manuell gelöscht werden. Das Modul kann wieder "
 "aktiviert werden via Verwaltung - Module - Verwaltungsmodul)"
 
-#: assets/branch_export.js:61
+#: assets/branch_export.js:74
 #, javascript-format
 msgid "Cutoff point #%d:"
 msgstr "Endpunkt #%d:"
 
-#: assets/branch_export.js:196 assets/branch_export.js:226
+#: assets/branch_export.js:224 assets/branch_export.js:254
 msgid "Please select a preset from the dropdown."
 msgstr "Bitte wähle die Ast-Einstellung von der Dropdown Liste."
 
-#: assets/branch_export.js:200
+#: assets/branch_export.js:228
 #, javascript-format
 msgid "Are you sure you want to delete this preset: %s?"
 msgstr "Bist du sicher das du diese Ast-Einstellung löschen möchtest: %s?"
 
-#: assets/branch_export.js:231
+#: assets/branch_export.js:259
 #, javascript-format
 msgid ""
 "%s is the current name of the selected preset. Please choose a different "
@@ -71,7 +75,7 @@ msgstr ""
 "%s ist der jetzige Name der selektierten Ast-Einstellung. Bitte  wähle einen "
 "neuen Namen, oder klicke 'Save'."
 
-#: assets/branch_export.js:239
+#: assets/branch_export.js:267
 msgid "A preset name is required."
 msgstr "Ein Name für diese Ast-Einstellung ist erforderlich."
 

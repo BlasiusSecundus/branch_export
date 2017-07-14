@@ -66,8 +66,14 @@ function OnPresetDelete(event)
 
 function OnSelectOrphaned()
 {
+    var orphaned_presets = jQuery("#presets option.preset-orphaned");
+    var num_orphaned = orphaned_presets.length;
+    if(num_orphaned === 0)
+    {
+        alert(translator.translate("No orphaned presets found."));
+    }
     jQuery("#presets option").prop("selected", false);
-    jQuery("#presets option.preset-orphaned").prop("selected", true);
+    orphaned_presets.prop("selected", true);
 }
 
 function OnUninstallClick(event)
@@ -86,7 +92,8 @@ jQuery(function(){
         "The tree to which this preset belonged was deleted.",
         "Are you sure you want to uninstall this module?\n\n(NOTE: all presets and module-related settings will be permanently deleted and the module will be disabled. Module files will not be removed. They must be manually deleted. The module can be reactivated on the 'Control Panel / Modules / Module administration' page.)",
         "Delete selected presets?",
-        "No preset selected."
+        "No preset selected.",
+        "No orphaned presets found."
         ]);
     
     jQuery("#tree_id").change(OnTreeIdChange).trigger("change");
