@@ -4,6 +4,7 @@ namespace BlasiusSecundus\WebtreesModules\BranchExport;
 use Fisharebest\Webtrees\Filter;
 use Fisharebest\Webtrees\Database;
 use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Auth;
 
 /**
  * Defined in session.php
@@ -23,6 +24,7 @@ $name = Filter::post("name");
 $cutoff = Filter::post("cutoff");
 $rename = Filter::post("rename");
 $preset_to_rename = Filter::post("preset_to_rename");
+$member = Auth::isMember($WT_TREE);
 
 
 
@@ -32,6 +34,8 @@ if(is_array($cutoff)){
 
 try{
 //checking if a preset with the same name exists
+if(!$member)    
+    throw new \Exception(sprintf(I18N::translate("The current user is not authorized to modify presets belonging to '%s'"), $WT_TREE->getName()));
 
 $preset_id = null;
 

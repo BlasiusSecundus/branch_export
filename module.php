@@ -87,9 +87,14 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     var $CutoffRecords = array();
     /**
      *
-     * @var string The name of the currently selected preset.
+     * @var string The ID of the currently selected preset, or "NULL" if no preset is selected.
      */
     var $SelectedPreset = null;
+     /**
+     *
+     * @var stdClass The selected preset object (or NULL).
+     */
+    var $SelectedPresetObj = null;
     
     /**
      *
@@ -367,6 +372,8 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         {
            $this->SelectedPreset = Session::get("branch_export_preset");
         }
+        
+        $this->SelectedPresetObj = $this->getPreset($this->SelectedPreset);
     }
     
     /**
@@ -1152,6 +1159,8 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     {
         global $WT_TREE;
 
+        if(!Auth::isMember($WT_TREE))
+        { return; }
         
         $cart = [];
         
@@ -1223,7 +1232,9 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
                 I18N::translate("Fixed: 'Unable to delete preset (None)' error message when pressing Delete without selecting a preset."),
                 I18N::translate("Fixed: when clicking Delete, the confirmation dialog used the value of the 'Name' input field instead the name of the selected Preset."),
                 I18N::translate("Fixed: when renaming a preset with the new name being identical to the current name, 'duplicate key' error message was displayed."),
-                I18N::translate("Fixed: after saving/deleting/renaming a preset the preset list was refreshed incorrectly, preventing further rename/delete operations (until page refresh).")
+                I18N::translate("Fixed: after saving/deleting/renaming a preset the preset list was refreshed incorrectly, preventing further rename/delete operations (until page refresh)."),
+                I18N::translate("Several minor UI fixes and improvements for Branch export main page and config page"),
+                I18N::translate("User authorization is now properly checked. Only users that are members of the tree can work with the branch export module and the presets belonging to that tree.")
             ],     
             "1.0.0" =>[
                 I18N::translate("First public release"),
@@ -1351,7 +1362,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
                                     <tr>
                                         <td class="optionbox" colspan="2">
                                             <label for="branch_preset_name"><?php echo I18N::translate("Name:")?></label>
-                                            <input name="branch_preset_name" id="branch_preset_name" value="<?php echo $this->SelectedPreset!=="NULL" ? $this->SelectedPreset : ""?>">
+                                            <input name="branch_preset_name" id="branch_preset_name" value="<?php echo $this->SelectedPresetObj? $this->SelectedPresetObj->name : ""?>">
                                             <input type="button" id="save_branch_preset" value="<?php echo I18N::translate("Save")?>" onclick="branchExport_OnSavePreset('<?php echo $this->directory?>')">
                                             <input type="button" id="rename_branch_preset" value="<?php echo I18N::translate("Rename &amp; Save")?>" onclick="branchExport_OnSavePreset('<?php echo $this->directory?>',1)">
                                             <input type="button" id="delete_branch_preset" value="<?php echo I18N::translate("Delete")?>" onclick="branchExport_OnDeletePreset('<?php echo $this->directory?>')"> 
@@ -1381,6 +1392,15 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         return Database::prepare("SELECT IF(status = 'enabled', true, false) FROM ##module WHERE module_name = 'clippings'")->execute()->fetchOne();
     }
     
+    protected function printAuthWarning()
+    {
+        ?>
+    <h1 class="branch-export-heading"><?php echo $this->getTitle();?></h1>
+    <p>
+        <?php echo I18N::translate("You are not authorized to access this module. You are not logged in as a member of the current tree.");?>
+    </p>
+    <?php
+    }
 
     /** @var string location of the branch export module files */
     var $directory;
@@ -1470,6 +1490,12 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
                 ->addExternalJavascript($this->directory."/assets/branch_export.js")
                 ->addExternalJavascript(WT_AUTOCOMPLETE_JS_URL)
                 ->addInlineJavascript('autocomplete();');
+        
+        if(!Auth::isMember($WT_TREE))
+        {
+            $this->printAuthWarning();
+            return;
+        }
         
         if($this->ModuleDBUpdateNecessary)
         {

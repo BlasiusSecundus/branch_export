@@ -4,6 +4,7 @@ namespace BlasiusSecundus\WebtreesModules\BranchExport;
 use Fisharebest\Webtrees\Filter;
 use Fisharebest\Webtrees\Database;
 use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Auth;
 
 /**
  * Defined in session.php
@@ -19,10 +20,14 @@ header('Content-Type: text/json; charset=UTF-8');
 
 $tree_id = $WT_TREE->getTreeId();
 $name = Filter::post("name");
+$member = Auth::isMember($WT_TREE);
 
 
 try{
 
+if(!$member)    
+    throw new \Exception(sprintf(I18N::translate("The current user is not authorized to modify presets belonging to '%s'"), $WT_TREE->getName()));
+    
 $num_deleted = Database::prepare("DELETE FROM ##branch_export_presets WHERE tree_id = :tree_id AND name = :name")->execute(["tree_id"=>$tree_id,"name"=>$name])->rowCount();
 
 if($num_deleted == 0)

@@ -308,7 +308,6 @@ jQuery(function(){
         "Please select a preset from the dropdown.",
         "Are you sure you want to delete this preset: %s?"]);
     
-    jQuery("#saved_branch_presets").trigger("change");
     jQuery("#branch_pivot, .branch-cutoff-row input").on("change autocompleteclose",branchExport_OnCutoffOrPivotChanged);
     
     jQuery("#branchexport_help").accordion({collapsible: true, active: false});
