@@ -27,7 +27,7 @@ use Fisharebest\Webtrees\Source;
 use Fisharebest\Webtrees\GedcomRecord;
 use Fisharebest\Webtrees\Tree;
 
-define("BRANCH_EXPORT_MODULE_VERSION","1.1.0 - ?.?.2017");
+define("BRANCH_EXPORT_MODULE_VERSION","1.1.0 - 18.07.2017");
 define("BRANCH_EXPORT_MODULE_DB_VERSION",1);
 
 /*
