@@ -8,7 +8,7 @@ This module is tested with the latest stable version of Webtrees (1.7.9), as wel
 
 ## Installation
 
-Module files should be copied to [Webtrees root]/modules_v3/branch_export folder. If you are downloading a package from the Releases page, the folder name in the downloaded zip file will contain the version number, e. g. branch_export-1.1.0. Makes sure to remove the version number, the folder name should be "branch_export".
+Module files should be copied to [Webtrees root]/modules_v3/branch_export folder. If you are downloading a package from the Releases page, the folder name in the downloaded zip file will contain the version number, e. g. branch_export-1.1.0. Make sure to remove the version number, the folder name should be "branch_export".
 
 Then, you must enable the module (Control Panel / Modules / Module Administration). Next time you load Webtrees, the new menu "Branch export" menu item will appear in the main menu. Click on it. It will tell you that it needs to initialize a data new table. Click "Perform Initialization". Now the module is functional.
 
