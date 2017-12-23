@@ -27,7 +27,9 @@ use Fisharebest\Webtrees\Source;
 use Fisharebest\Webtrees\GedcomRecord;
 use Fisharebest\Webtrees\Tree;
 
-define("BRANCH_EXPORT_MODULE_VERSION","1.1.0 - 18.07.2017");
+require_once 'branchgenerator.php';
+
+define("BRANCH_EXPORT_MODULE_VERSION","1.2.0 DEV - xx.xx.2018");
 define("BRANCH_EXPORT_MODULE_DB_VERSION",1);
 
 /*
@@ -481,91 +483,8 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         $this->Presets = Database::prepare("SELECT * FROM ##branch_export_presets WHERE tree_id = :tree_id ORDER BY name")->execute(["tree_id"=>$tree_id])->fetchAll();
         
     }
+
     
-    
-    /**
-     * Gets the immediate relatives of an individual.
-     * @param $indi Individual The individual.
-     * @return string[] A list of relatives (individual XREFS).
-     */
-    public function getImmediateRelatives($indi)
-    {
-
-        $related_persons = [];
-
-        global $WT_TREE;
-        $tree_id = $WT_TREE->getTreeId();
-
-
-        $families = Database::prepare("SELECT DISTINCT l_to FROM `##link` WHERE l_from = :my_xref AND l_file = :tree_id AND (l_type='FAMC' OR l_type='FAMS')")->execute(["my_xref" => $indi->getXref(), "tree_id" => $tree_id])->fetchAll();
-
-        foreach($families as $family_row)
-        {
-            $relatives_for_current_fam = Database::prepare("SELECT DISTINCT l_from FROM `##link` WHERE l_to = :family_xref AND l_file = :tree_id")->execute(["family_xref" => $family_row->l_to, "tree_id" => $tree_id])->fetchAll();
-
-            foreach($relatives_for_current_fam as $relative)
-            {
-                $related_persons[] = $relative->l_from;
-            }
-        }
-
-        $related_persons = array_unique($related_persons);
-
-
-        return $related_persons;
-    }
-        
-    /**
-     * Gets the XREFs for all Gercom records linked to the specified individual. 
-     * @return string[] Array containg the XREFs. Returns empty array, if no families found. 
-     */
-    public function getRelatedRecordXrefs($indi)
-    {
-        global $WT_TREE;
-        $record_xrefs = array();
-
-        $record_rows = Database::prepare("SELECT DISTINCT l_to FROM ##link WHERE l_from = :indi AND l_file = :tree")->execute(["indi"=>$indi->getXref(), "tree" => $WT_TREE->getTreeId()])->fetchAll();
-        
-        foreach($record_rows as $row)
-        {
-            $record_xrefs[] = $row->l_to;
-        }
-        //var_dump($indi->getXref()); var_dump($record_xrefs);
-        return $record_xrefs;
-    }
-
-    protected function preprocessCutoffPoints($input_cutoff_points)
-    {
-        global $WT_TREE;
-        $tree_id = $WT_TREE->getTreeId();
-
-        $output_cutoff_points = [];
-
-        foreach($input_cutoff_points as $cutoff_point)
-        {
-            //if individual, we add the indi xref
-            if(strpos($cutoff_point,"I")!==FALSE)
-            {
-                $output_cutoff_points[] = $cutoff_point;
-            }
-            //if family: add family members
-            else if(strpos($cutoff_point,"F") !== FALSE)
-            {
-                $member_rows = Database::prepare("SELECT DISTINCT l_to FROM ##link WHERE l_from = :family AND l_file = :tree_id")->execute(["tree_id"=>$tree_id,"family"=>$cutoff_point])->fetchAll();
-
-                foreach($member_rows as $row)
-                {
-                    if($row->l_to != $this->PivotIndi->getXref())//we don't add the cutoff point
-                    {
-
-                            $output_cutoff_points[] = $row->l_to;
-                    }
-                }
-            }
-        }
-
-        return $output_cutoff_points;
-    }
     /**
      * Loads the Gedcom records (Individuals and Families) in the branch. Used to display preview.
      * @global \BlasiusSecundus\WebtreesModules\BranchExport\type $WT_TREE
@@ -1022,7 +941,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
             <?php
             return;
         }
-        $this->BranchContent = $this->generateBranch($this->PivotIndi,$this->CutoffXrefs);
+        $this->BranchContent = $this->generateBranch();
         $this->loadBranchRecords();
         $this->loadCutoffPointRecords();
         ?>
@@ -1057,71 +976,12 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         
     }
         
-    protected function generateBranch($pivot_indi = null,$cutoff_points = null,&$branch_indies = null, &$null_indies = null, &$processed_indies = array())
+    protected function generateBranch()
     {
-        global $WT_TREE;
-
-        if(!$null_indies)
-        {
-            $null_indies = [];
-        }
-        if(!$branch_indies)
-        {
-            $branch_indies = [];
-        }
-
-        $cutoff_individuals = $this->preprocessCutoffPoints($cutoff_points);
-
-        //this indi is always in the branch
-        $branch_indies[$pivot_indi->getXref()] = $pivot_indi;
-
-        $branch_families_and_indies = $this->getRelatedRecordXrefs($pivot_indi);
-        $branch_families_and_indies[] = $pivot_indi->getXref();
-
-        if(in_array($pivot_indi->getXref(),$cutoff_individuals))
-        {
-            return $branch_families_and_indies;
-        }
-
-        $immediate_relatives = $this->getImmediateRelatives($pivot_indi);
-
-        foreach($immediate_relatives as $irel_xref)
-        {
-
-            $irel = Individual::getInstance($irel_xref, $WT_TREE);
-            if(!$irel)
-            {
-                $null_indies[] = $irel_xref;
-            }
-                
-            if(!in_array($irel_xref,$branch_families_and_indies))
-            {
-                $branch_families_and_indies[]= $irel_xref;
-            }
-             if(in_array($irel_xref, $cutoff_individuals))
-             {
-                
-                $processed_indies[] = $irel_xref;
-                $branch_indies[$irel_xref] = $irel;
-                $branch_families_and_indies = array_unique(array_merge($branch_families_and_indies,$this->getRelatedRecordXrefs($irel)));
-                continue;
-             }
-
-            if(!in_array($irel_xref, $processed_indies))
-            {
-
-                $processed_indies[] = $irel_xref;
-                $branch_indies[$irel_xref] = $irel;
-                
-                $branch_families_and_indies = array_unique(array_merge($branch_families_and_indies,$this->getRelatedRecordXrefs($pivot_indi),$irel ? $this->generateBranch($irel,$cutoff_individuals,$branch_indies,$null_indies,$processed_indies):array()));
-                
-            }
-
-
-        }
-
-            return $branch_families_and_indies;
-        }
+        
+        $bgen = new BranchGenerator($this->PivotIndi, $this->CutoffXrefs);
+        return $bgen->generateBranch();
+    }
     
     /**
      * Loads a branch based on a preset.
@@ -1164,7 +1024,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         
         $cart = [];
         
-        $this->BranchContent = $this->generateBranch($this->PivotIndi,$this->CutoffXrefs);
+        $this->BranchContent = $this->generateBranch();
         
         foreach($this->BranchContent as $item)
         {
