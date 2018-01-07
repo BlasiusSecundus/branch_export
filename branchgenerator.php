@@ -140,7 +140,10 @@ class BranchGenerator
         
         foreach($record_rows as $row)
         {
-            $record_xrefs[] = $row->l_to;
+            $record_obj = \Fisharebest\Webtrees\GedcomRecord::getInstance($row->l_to, $this->Tree);
+            if($record_obj->canShow()) {
+                $record_xrefs[] = $row->l_to;
+            }
         }
         
         return $record_xrefs;
@@ -164,6 +167,9 @@ class BranchGenerator
     
     protected function addIndiToBranch($indi)
     {
+        if(!$indi->canShow())
+            return false;
+        
         $this->BranchIndies[$indi->getXref()] = $indi;
         
         if(!in_array($indi->getXref(), $this->ProcessedIndies))
@@ -172,7 +178,9 @@ class BranchGenerator
         }
         
         $this->BranchContentXREFs[] = $indi->getXref();
-        $this->BranchContentXREFs = array_unique(array_merge($this->BranchContentXREFs, $this->getRelatedRecordXrefs($indi)));    
+        $this->BranchContentXREFs = array_unique(array_merge($this->BranchContentXREFs, $this->getRelatedRecordXrefs($indi)));
+        
+        return true;
     }
     
     protected function generateBranchStep($pivot_indi)
@@ -180,7 +188,8 @@ class BranchGenerator
 
         //pivot indi is always in the branch
         
-        $this->addIndiToBranch($pivot_indi);
+        if(!$this->addIndiToBranch($pivot_indi))
+            return;
 
         if(in_array($pivot_indi->getXref(),$this->CutoffPoints))
         {
@@ -200,7 +209,10 @@ class BranchGenerator
                $this->addNULLIndiToBranch($irel_xref);
                continue;
             }
-                
+            
+            if(!$irel->canShow())
+                continue;
+            
             if(in_array($irel_xref, $this->CutoffPoints))
             {
                $this->addIndiToBranch($irel);
