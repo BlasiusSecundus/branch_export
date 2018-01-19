@@ -18,6 +18,11 @@ require '../../includes/session.php';
 
 header('Content-Type: text/json; charset=UTF-8');
 
+if(!Filter::checkCsrf()){
+    http_response_code(406);
+    return;
+} 
+
 $tree_id = $WT_TREE->getTreeId();
 $name = Filter::post("name");
 $member = Auth::isMember($WT_TREE);

@@ -6,37 +6,6 @@
 var translator = null;
 
 
-/**
- * Creates a popup window using POST method. Base "Mercenary"'s solution at http://stackoverflow.com/questions/3951768/window-open-and-pass-parameters-by-post-method. 
- * @param {string} script The php script file.
- * @param {array} post_data The post data.
- * @param {array} window_specs Window specification.
- * @returns {undefined}
- */
-function postWindow(script,post_data,window_specs)
-{
-    var window_name = "PostWindow"
-    var form = document.createElement("form");
-    form.setAttribute("method", "post");
-    form.setAttribute("action", script);
-
-    form.setAttribute("target", window_name);
-
-    for(var key in post_data){
-    var hiddenField = document.createElement("input"); 
-    hiddenField.setAttribute("type", "hidden");
-    hiddenField.setAttribute("name", key);
-    hiddenField.setAttribute("value", post_data[key]);
-    form.appendChild(hiddenField);
-    
-    }
-    document.body.appendChild(form);
-    window.open('', window_name,window_specs);
-
-    form.submit();
-}
-
-
 function branchExport_OnAddCutoffPointClick()
 {
     branchExport_AddCutoffPoint();
@@ -126,22 +95,6 @@ function branchExport_CollectCutoffPoints()
     return cutoff_points;
 }
 
-function branchExport_ShowPreview()
-{
-    var data = {
-        "pivot" :  jQuery("#branch_pivot").val(),
-        "cutoff"   :  branchExport_CollectCutoffPoints(),
-        "clippingCartContent" : []
-    };
-    
-    //collecting current clipping cart content
-    jQuery.each(jQuery("#mycart tbody tr"),function(){
-        data["clippingCartContent"].push(jQuery(this).data("id"));
-    });
-    
-    postWindow("branchexportpreview.php",data,find_window_specs);
-}
-
 function branchExport_OnPresetSelected(event)
 {
     var id = $(event.target).val(), name = $(event.target).find(":selected").text();
@@ -216,7 +169,8 @@ function branchExport_OnDeletePreset(moduledir)
     
     var data = {
         "name" : $("#saved_branch_presets :selected").text(),
-        "selected" : $("#saved_branch_presets").val()
+        "selected" : $("#saved_branch_presets").val(),
+        "csrf": WT_CSRF_TOKEN
     };
     
     if(data["selected"] === "NULL")
@@ -241,7 +195,8 @@ function branchExport_OnSavePreset(moduledir, rename)
 {
     var data = {
         "name" : $("#branch_preset_name").val(),
-        "pivot" : $("#branch_pivot").val()
+        "pivot" : $("#branch_pivot").val(),
+        "csrf": WT_CSRF_TOKEN
     };
     
     if(rename){
