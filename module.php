@@ -796,41 +796,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         $this->CutoffXrefs = explode(",",$preset->cutoff);
         $this->BranchGenerator = new BranchGenerator($this->PivotIndi, $this->CutoffXrefs);
     }
-    
-    /**
-     * Exports the branch defined by the currently selected preset.
-     */
-    protected function exportPresetBranch()
-    {
-        $this->loadPresetBranch();
-        $this->exportBranch();
-    }
-            
-    /**
-     * Exports the current branch, using Clippings carts module.
-     * @global type $WT_TREE
-     */
-    protected function exportBranch()
-    {
-        global $WT_TREE;
-
-        if(!Auth::isMember($WT_TREE))
-        { return; }
         
-        $cart = [];
-       
-        
-        foreach($this->BranchGenerator->generateBranch() as $item)
-        {
-            $cart[$item] = true;
-        }
-        
-        Session::put("cart", [$WT_TREE->getTreeId() => $cart]);
-        
-        header('Location:'.WT_BASE_URL.'module.php?mod=clippings&mod_action=index');
-        
-    }
-    
     /**
      * Prints the cutoff point input elements. There can be as many cutoff point as the user wants.
      * 
@@ -941,9 +907,8 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     <h1 class="branch-export-heading"><?php echo $this->getTitle();?></h1>
     <div>
         
-        <form method="get" name="branchexp" action="module.php" id="branchexp">
-                <input type="hidden" name="mod" value="branch_export">
-                <input type="hidden" name="mod_action" value="export">
+        <form method="post" name="branchexp" action="<?php echo $this->directory?>/exportbranch.php" id="branchexp">
+                <?php echo Filter::getCsrf();?>
                 <table>
                             <thead>
                                     <tr>
@@ -976,7 +941,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
 
 
                                                     <label for="branch_pivot" style="display: inline-block; min-width: 80px;" ><?php echo I18N::translate('Pivot point:')?></label>
-                                                    <input type="text" data-autocomplete-type="INDI" name="pivot" id="branch_pivot" size="8" value="<?php echo $this->PivotIndi !== null ? $this->PivotIndi->getXref(): $this->PivotIndiXref?>">
+                                                    <input type="text" data-autocomplete-type="INDI" name="pivot" id="branch_pivot" size="8" required value="<?php echo $this->PivotIndi !== null ? $this->PivotIndi->getXref(): $this->PivotIndiXref?>">
                                             </td>
                                             <td class="optionbox">
                                                     <?php echo FunctionsPrint::printFindIndividualLink('branch_pivot'); ?>
@@ -1104,18 +1069,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     public function modAction($mod_action) {
         
         
-        
-        if($mod_action === "export")
-        {
-            $this->exportBranch();
-            return;
-        }
-        else if($mod_action === "export_preset")
-        {
-            $this->exportPresetBranch();
-            return;
-        }
-        else if($mod_action === "uninstall")
+        if($mod_action === "uninstall")
         {
             $this->uninstall();
             header("Location: ".WT_BASE_URL);
@@ -1254,10 +1208,9 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
        
        $retval = 
                "<p>".I18N::translate("Export new branch from:")." <a href='$new_branch_link' target='_blank'>{$indi->getFullName()}</a></p>".
-               "<p>".I18N::translate("Export preset branch:")."<form action='".WT_BASE_URL."module.php' method='get' target='_blank'>".
-               "<input type='hidden' name='mod' value='branch_export'>".
-               "<input type='hidden' name='clear_selections' value='1'>".
-               "<input type='hidden' name='mod_action' value='export_preset'>";
+               "<p>".I18N::translate("Export preset branch:")."<form action='".WT_BASE_URL."modules_v3/branch_export/exportbranch.php' method='post'>"
+                       . "<input type='hidden' name='use_preset' value='1'>".
+                       Filter::getCsrf();
        
         if($presets){      
               $retval.="<select name='preset'>";

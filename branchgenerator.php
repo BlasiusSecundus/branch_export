@@ -5,6 +5,7 @@ use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\GedcomRecord;
 use Fisharebest\Webtrees\Tree;
 use Fisharebest\Webtrees\Database;
+use Fisharebest\Webtrees\Family;
 
 /**
  * Branch generator class.
