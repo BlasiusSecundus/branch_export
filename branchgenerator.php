@@ -2,6 +2,7 @@
 
 namespace BlasiusSecundus\WebtreesModules\BranchExport;
 use Fisharebest\Webtrees\Individual;
+use Fisharebest\Webtrees\GedcomRecord;
 use Fisharebest\Webtrees\Tree;
 use Fisharebest\Webtrees\Database;
 
@@ -58,6 +59,18 @@ class BranchGenerator
      * @var type string[] XREFs of records in the branch.
      */
     protected $BranchContentXREFs = array();
+    
+    /**
+     *
+     * @var GedcomRecord[] The array of loaded gedcom records (in branch).
+     */
+    protected $BranchRecords = array();
+    
+    /**
+     *
+     * @var  GedcomRecord[] The array of loaded cutoff point gedcom records.
+     */
+    protected $CutoffRecords = array();
     
     /**
      * Adds all members of the family as cutoff point.
@@ -255,5 +268,113 @@ class BranchGenerator
         $this->BranchContentXREFs = array();
         $this->generateBranchStep($this->PivotIndi);
         return $this->BranchContentXREFs;
+    }
+    
+    /**
+     * Loads the Gedcom records (Individuals and Families) in the branch. Used to display preview.
+     * @global \BlasiusSecundus\WebtreesModules\BranchExport\type $WT_TREE
+     */
+    protected function loadBranchRecords()
+    {
+        
+        global $WT_TREE;
+        
+        $this->BranchRecords = [];
+        
+        if(!$this->BranchContentXREFs)
+        {
+            $this->generateBranch();
+        }
+
+        foreach($this->BranchContentXREFs as $xref)
+        {
+
+             $record = GedcomRecord::getInstance($xref, $WT_TREE);
+
+             if($record) {$this->BranchRecords[$xref] = $record;}
+            
+
+        }
+        
+       uasort($this->BranchRecords,'\Fisharebest\Webtrees\GedcomRecord::compare');
+    }
+    
+    /**
+     * Loads the cutoff point getcom records. 
+     */
+    protected function loadCutoffPointRecords()
+    {
+        global $WT_TREE;
+        
+        $this->CutoffRecords = [];
+        
+        foreach($this->InputCutoffPoints as $xref)
+        {
+            $record = null;
+            
+            if(strpos($xref,"I") !== FALSE)
+            {
+                $record = Individual::getInstance($xref, $WT_TREE);
+            }
+            else if(strpos($xref,"F") !== FALSE)
+            {
+                $record = Family::getInstance($xref, $WT_TREE);
+            }
+            if($record !== NULL){
+            $this->CutoffRecords[] = $record;
+            }
+        }
+    }
+    
+    /**
+     * 
+     * @return GedcomRecord[]
+     */
+    public function getBranchRecords()
+    {
+        if(!$this->BranchRecords)
+        {
+            $this->loadBranchRecords();
+        }
+        return $this->BranchRecords;
+    }
+    
+    /**
+     * 
+     * @return GedcomRecord[]
+     */
+    public function getCutoffpointRecords()
+    {
+        if(!$this->CutoffRecords)
+        {
+            $this->loadCutoffPointRecords();
+        }
+        
+        return $this->CutoffRecords;
+    }
+    
+    /**
+     * Returns the number of instances a particular record type in the branch. 
+     * @param string $type
+     * @return int
+     */
+    public function numRecordInBranch($type)
+    {
+        $num_records = 0;
+        
+        if(!$this->BranchRecords)
+        {
+            $this->loadBranchRecords();
+        }
+        
+        foreach($this->BranchRecords as $record)
+        {
+            if($record::RECORD_TYPE === $type)
+            {
+                $num_records++;
+            }
+        }
+        
+        return $num_records;
     }
 }

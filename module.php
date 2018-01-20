@@ -84,11 +84,6 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     
     /**
      *
-     * @var GedcomRecord[] List of gedcom records that serve as cutoff points.  
-     */
-    var $CutoffRecords = array();
-    /**
-     *
      * @var string The ID of the currently selected preset, or "NULL" if no preset is selected.
      */
     var $SelectedPreset = null;
@@ -106,15 +101,10 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     
     /**
      *
-     * @var string[] XREFs of the records that are in the branch.   
+     * @var BranchGenerator The branch generator.   
      */
-    var $BranchContent = array();
+    var $BranchGenerator = NULL;
     
-    /**
-     *
-     * @var GedcomRecord[] Families in the branch. 
-     */
-    var $BranchRecords = array();
     
     /**
      *
@@ -420,32 +410,6 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         }
     }
     /**
-     * Loads the cutoff point getcom records. 
-     */
-    protected function loadCutoffPointRecords()
-    {
-        global $WT_TREE;
-        
-        $this->CutoffRecords = [];
-        
-        foreach($this->CutoffXrefs as $xref)
-        {
-            $record = null;
-            
-            if(strpos($xref,"I") !== FALSE)
-            {
-                $record = Individual::getInstance($xref, $WT_TREE);
-            }
-            else if(strpos($xref,"F") !== FALSE)
-            {
-                $record = Family::getInstance($xref, $WT_TREE);
-            }
-            if($record !== NULL){
-            $this->CutoffRecords[] = $record;
-            }
-        }
-    }
-    /**
      * 
      * Initializes the module.
      */
@@ -467,6 +431,8 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         
         $this->loadCutoffPoints();
         
+        $this->BranchGenerator = new BranchGenerator($this->PivotIndi, $this->CutoffXrefs);
+        
         $this->loadPresets();
         }
     }
@@ -482,35 +448,6 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         
         $this->Presets = Database::prepare("SELECT * FROM ##branch_export_presets WHERE tree_id = :tree_id ORDER BY name")->execute(["tree_id"=>$tree_id])->fetchAll();
         
-    }
-
-    
-    /**
-     * Loads the Gedcom records (Individuals and Families) in the branch. Used to display preview.
-     * @global \BlasiusSecundus\WebtreesModules\BranchExport\type $WT_TREE
-     */
-    protected function loadBranchRecords()
-    {
-        
-        global $WT_TREE;
-        
-        $this->BranchRecords = [];
-        
-        
-        
-        foreach($this->BranchContent as $xref)
-        {
-
-             $record = GedcomRecord::getInstance($xref, $WT_TREE);
-
-             if($record) {$this->BranchRecords[$xref] = $record;}
-            
-
-        }
-        
-        
-       self::SortRecords($this->BranchRecords);
-   
     }
     
     /**
@@ -590,24 +527,6 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         
         return intval(Database::prepare($query)->execute($query_params)->fetchOne());
     }
-    /**
-     * Returns the number of instances a particular record type in the branch. 
-     * @param string $type
-     * @return int
-     */
-    protected function numRecordInBranch($type)
-    {
-        $num_records = 0;
-        foreach($this->BranchRecords as $record)
-        {
-            if($record::RECORD_TYPE === $type)
-            {
-                $num_records++;
-            }
-        }
-        
-        return $num_records;
-    }
     
     /**
      * Prints a preview table with the specified records.
@@ -617,7 +536,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     {
         ?>
         <table class="sortable list_table width50 branch-preview-table">
-            <caption><?php echo $type_filter ? sprintf($caption,$type_filter) : $caption;?> (<?php echo $type_filter ? $this->numRecordInBranch($type_filter) : count($records);?>)</caption>
+            <caption><?php echo $type_filter ? sprintf($caption,$type_filter) : $caption;?> (<?php echo $type_filter ? $this->BranchGenerator->numRecordInBranch($type_filter) : count($records);?>)</caption>
             <thead>
                 <tr>
                     <th class="list_label">XREF</th>
@@ -625,7 +544,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($this->BranchRecords as $xref => $record):
+                <?php foreach($this->BranchGenerator->getBranchRecords() as $xref => $record):
     if($type_filter && $record::RECORD_TYPE !== $type_filter) { continue; }
                     ?>
                 <tr>
@@ -678,7 +597,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         <p>
             <span class="branch-preview-summary-label"><?php echo sprintf(I18N::translate("Total %s records in this tree",$record_type))?>:</span> <?php echo $num_records_in_tree = $this->numRecordOfTypeInTree($record_type);?>
                 <br>
-                <span class="branch-preview-summary-label"><?php echo sprintf(I18N::translate("%s records in this branch",$record_type))?>:</span> <?php echo $num_records_in_branch = $this->numRecordInBranch($record_type)?> 
+                <span class="branch-preview-summary-label"><?php echo sprintf(I18N::translate("%s records in this branch",$record_type))?>:</span> <?php echo $num_records_in_branch = $this->BranchGenerator->numRecordInBranch($record_type)?> 
                 <?php if($num_records_in_tree) { echo "(".round(100*($num_records_in_branch / $num_records_in_tree),2)."%)"; }?>
             </p>
        <?php
@@ -941,9 +860,6 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
             <?php
             return;
         }
-        $this->BranchContent = $this->generateBranch();
-        $this->loadBranchRecords();
-        $this->loadCutoffPointRecords();
         ?>
         <h2 class="branch-preview-heading"><?php echo I18N::translate("Branch preview")?></h2>
         <div class="branch-preview-content">
@@ -954,7 +870,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
                 <?php echo I18N::translate("Cutoff points:");?>
             </p>
             <ul>
-                <?php foreach($this->CutoffRecords as $cutoff):?>
+                <?php foreach($this->BranchGenerator->getCutoffpointRecords() as $cutoff):?>
                 <li><a href='<?php echo $cutoff->getHtmlUrl();?>' target='_blank'><?php echo $cutoff->getFullName();?></a> (<?php echo $cutoff->getXref();?>)</li>
                 <?php endforeach;?>
             </ul>
@@ -970,17 +886,10 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         <?php
         
         foreach([Individual::RECORD_TYPE, Family::RECORD_TYPE, Media::RECORD_TYPE, Note::RECORD_TYPE, Repository::RECORD_TYPE, Source::RECORD_TYPE] as $type)   {   
-         if($this->numRecordInBranch($type) === 0) {continue;}
+         if($this->BranchGenerator->numRecordInBranch($type) === 0) {continue;}
          $this->printBranchPreviewTable(I18N::translate("%s records in the branch"),$type);
         }
         
-    }
-        
-    protected function generateBranch()
-    {
-        
-        $bgen = new BranchGenerator($this->PivotIndi, $this->CutoffXrefs);
-        return $bgen->generateBranch();
     }
     
     /**
@@ -1023,10 +932,9 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         { return; }
         
         $cart = [];
+       
         
-        $this->BranchContent = $this->generateBranch();
-        
-        foreach($this->BranchContent as $item)
+        foreach($this->BranchGenerator->generateBranch() as $item)
         {
             $cart[$item] = true;
         }
