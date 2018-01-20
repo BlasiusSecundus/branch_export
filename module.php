@@ -238,9 +238,17 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     
     protected function uninstall()
     {
-        $has_permission_to_uninstall = Filter::get("branch_export_uninstall_db") && Auth::isAdmin();
+        $has_permission_to_uninstall = Filter::postBool("branch_export_uninstall_db") && Auth::isAdmin();
         
-        if(!$has_permission_to_uninstall) {return;}
+        if(!$has_permission_to_uninstall) {
+            http_response_code(403);
+            exit();   
+        }
+        
+        if(!Filter::checkCsrf()){
+            http_response_code(406);
+            exit();
+        }
         
         Database::prepare("DROP TABLE IF EXISTS ##branch_export_presets")->execute();
         Database::prepare("DELETE FROM ##module_setting WHERE module_name = 'branch_export'")->execute();
@@ -252,13 +260,22 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
      */
     protected function initDB()
     {
-        
         $table_exists = Database::prepare("SHOW TABLES LIKE '##$this->TableNameWithoutPrefix'")->execute()->fetchAll();
+        $asked_to_create = Filter::postBool("branch_export_create_db");
+        $asked_to_update = Filter::postBool("branch_export_update_db");
         
+        if($asked_to_create || $asked_to_update){
+            if(!Filter::checkCsrf()){
+                    http_response_code(406);
+                    exit();
+            }
+        }
        
         if(!$table_exists)//create data table
         {
-            $has_permission_to_create = Filter::get("branch_export_create_db") && Auth::isAdmin();
+
+            $has_permission_to_create = $asked_to_create && Auth::isAdmin();
+            
             if($has_permission_to_create){
                 $this->createDB();
             }
@@ -270,7 +287,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         else//update DB table, if necessary
         {
             $current_version = $this->getCurrentDBVersion();
-            $has_permission_to_update = Filter::get("branch_export_update_db") && Auth::isAdmin();
+            $has_permission_to_update = $asked_to_update && Auth::isAdmin();
             $needs_db_update = $current_version < BRANCH_EXPORT_MODULE_DB_VERSION;
             
             if(!$has_permission_to_update && $needs_db_update)//we do not have permission from the user to migrate the DB - we indicate the need and will display a warningfor the user 
@@ -618,9 +635,11 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
             <p>
                 <?php echo I18N::translate("As soon as you are ready to perform the initialization, click the link below.")?>
             </p>
-            <p>
-                <a href="module.php?mod=branch_export&amp;branch_export_create_db=1"><?php echo I18N::translate("Perform Initialization")?></a>
-            </p>
+            <form action="<?php echo WT_BASE_URL?>module.php?mod=branch_export" method="post">
+                <input type="hidden" name="branch_export_create_db" value="1">
+                <?php echo Filter::getCsrf()?>
+                <button type="submit"><?php echo I18N::translate("Perform Initialization")?></button>
+            </form>
             <?php else: ?>
             <p>
                 <strong><?php echo I18N::translate("Only administrators can initialize the data table.");?></strong>
@@ -646,9 +665,11 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
             <p>
                 <?php echo I18N::translate("As soon as you are ready to perform the update, click the link below.")?>
             </p>
-            <p>
-                <a href="module.php?mod=branch_export&amp;branch_export_update_db=1"><?php echo I18N::translate("Perform Update")?></a>
-            </p>
+            <form action="<?php echo WT_BASE_URL?>module.php?mod=branch_export" method="post">
+                <input type="hidden" name="branch_export_update_db" value="1">
+                <?php echo Filter::getCsrf()?>
+                <button type="submit"><?php echo I18N::translate("Perform Update")?></button>
+            </form>
             <?php else: ?>
             <p>
                 <strong><?php echo I18N::translate("Only administrators can update the database.");?></strong>
@@ -757,10 +778,9 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
                     </tbody>
                 </table>
             </form>
-            <form id="uninstall_branch_export_module" method="get" name="branchuninst" action="module.php">
-                <input type="hidden" name="mod" value="branch_export">
-                <input type="hidden" name="mod_action" value="uninstall">
+            <form id="uninstall_branch_export_module" method="post" name="branchuninst" action="module.php?mod=branch_export&mod_action=uninstall">
                 <input type="hidden" name="branch_export_uninstall_db" value="1">
+                <?php echo Filter::getCsrf()?>
                 <input type="submit" id="uninstall" value="<?php echo I18N::translate("uninstall")?>">
             </form>
             <?php endif;
