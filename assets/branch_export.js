@@ -251,6 +251,30 @@ function branchExport_OnCutoffOrPivotChanged()
     branchExport_SetPresetChangedState(true);
 }
 
+function branchExport_OnShowPreview(moduledir){
+    var data = {};
+    data["pivot"] = jQuery("#branch_pivot").val();
+    data["cutoff"] = [];
+    jQuery.each(jQuery("input[id^='branch_cutoff_']"), function(){
+        data["cutoff"].push(jQuery(this).val());
+    });
+    
+    data["csrf"] = WT_CSRF_TOKEN;
+    
+    jQuery.post(moduledir+"/getbranchpreview.php", data, function (result){
+        
+        if(jQuery.type(result) !== 'string')
+        {   
+            if("error" in result)
+            {
+                alert(result["error"]["message"]);
+            }
+        }
+        else
+            jQuery("#branch-preview-content").html(result);
+    });
+}
+
 jQuery(function(){
     
     jQuery("head").append('<link rel="stylesheet" href="modules_v3/branch_export/assets/branch_export.css" type="text/css" />');

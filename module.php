@@ -408,6 +408,9 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         {
             $this->CutoffXrefs = explode(",",$this->CutoffXrefs);
         }
+        
+        if(!$this->CutoffXrefs)
+            $this->CutoffXrefs = array();
     }
     /**
      * 
@@ -431,7 +434,8 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         
         $this->loadCutoffPoints();
         
-        $this->BranchGenerator = new BranchGenerator($this->PivotIndi, $this->CutoffXrefs);
+        if($this->PivotIndi)
+            $this->BranchGenerator = new BranchGenerator($this->PivotIndi, $this->CutoffXrefs);
         
         $this->loadPresets();
         }
@@ -528,80 +532,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         return intval(Database::prepare($query)->execute($query_params)->fetchOne());
     }
     
-    /**
-     * Prints a preview table with the specified records.
-     * @param string $caption Table caption.
-     */
-    protected function printBranchPreviewTable($caption, $type_filter = null)
-    {
-        ?>
-        <table class="sortable list_table width50 branch-preview-table">
-            <caption><?php echo $type_filter ? sprintf($caption,$type_filter) : $caption;?> (<?php echo $type_filter ? $this->BranchGenerator->numRecordInBranch($type_filter) : count($records);?>)</caption>
-            <thead>
-                <tr>
-                    <th class="list_label">XREF</th>
-                    <th class="list_label"><?php echo I18N::translate("Full name");?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($this->BranchGenerator->getBranchRecords() as $xref => $record):
-    if($type_filter && $record::RECORD_TYPE !== $type_filter) { continue; }
-                    ?>
-                <tr>
-                    <td class="list_value"><?php echo $xref;?></td>
-                    <td class="list_value">
-                        <?php 
-                        $iconclass = "";
-                        switch($record::RECORD_TYPE)
-                        {
-                            case Individual::RECORD_TYPE:
-                                $iconclass="icon-indis";
-                                break;
-                            case Family::RECORD_TYPE:
-                                $iconclass="icon-sfamily";
-                                break;
-                            case Media::RECORD_TYPE:
-                                $iconclass="icon-media";
-                                break;
-                            case Note::RECORD_TYPE:
-                                $iconclass="icon-note";
-                                break;
-                            case Source::RECORD_TYPE:
-                                $iconclass="icon-source";
-                                break;
-                            case Repository::RECORD_TYPE:
-                                $iconclass="icon-repository";
-                                break;
-                            
-                        }?>
-                        
-                        
-                        <i class="<?php echo $iconclass;?>"></i>
-                        <?php if($record):?>
-                        <a href="<?php echo $record->getHtmlUrl();?>" target="_blank"><?php echo $record->getFullName();?></a>
-                        <?php else:?>
-                        NULL
-                        <?php endif;?>
-                        
-                    </td>
-                </tr>
-                <?php endforeach;?>
-            </tbody>
-        </table>
 
-        <?php
-    }
-    protected function printBranchRecordStats($record_type)
-    {
-        ?>
-        <p>
-            <span class="branch-preview-summary-label"><?php echo sprintf(I18N::translate("Total %s records in this tree",$record_type))?>:</span> <?php echo $num_records_in_tree = $this->numRecordOfTypeInTree($record_type);?>
-                <br>
-                <span class="branch-preview-summary-label"><?php echo sprintf(I18N::translate("%s records in this branch",$record_type))?>:</span> <?php echo $num_records_in_branch = $this->BranchGenerator->numRecordInBranch($record_type)?> 
-                <?php if($num_records_in_tree) { echo "(".round(100*($num_records_in_branch / $num_records_in_tree),2)."%)"; }?>
-            </p>
-       <?php
-    }
     /**
      * Gets the HTML printout of the module version (to be used in/near the page footer).
      * @return string
@@ -847,52 +778,6 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     }
     
     /**
-     * Prints the branch preview.
-     */
-    protected function printBranchPreview()
-    {
-        if(!$this->PivotIndi)
-        {
-            global $WT_TREE;
-            $tree_id = $WT_TREE->getTreeId();
-            ?>
-            <h3 class="branch-preview-no-pivot"><?php echo $this->PivotIndiXref ? sprintf(I18N::translate("Invalid pivot point selected: %s. No such individual found in the current tree."),"<a href=\"".WT_BASE_URL."individual.php?pid=$this->PivotIndiXref&amp;ged=$tree_id\" target=\"_blank\">$this->PivotIndiXref</a>") : I18N::translate("No pivot point selected.")?></h3>
-            <?php
-            return;
-        }
-        ?>
-        <h2 class="branch-preview-heading"><?php echo I18N::translate("Branch preview")?></h2>
-        <div class="branch-preview-content">
-            <p>
-                <?php echo I18N::translate("Pivot individual")?>: <a href='<?php echo $this->PivotIndi->getHtmlUrl();?>' target='_blank'><?php echo $this->PivotIndi->getFullName();?></a>;
-            </p>
-            <p>
-                <?php echo I18N::translate("Cutoff points:");?>
-            </p>
-            <ul>
-                <?php foreach($this->BranchGenerator->getCutoffpointRecords() as $cutoff):?>
-                <li><a href='<?php echo $cutoff->getHtmlUrl();?>' target='_blank'><?php echo $cutoff->getFullName();?></a> (<?php echo $cutoff->getXref();?>)</li>
-                <?php endforeach;?>
-            </ul>
-            <?php 
-            
-            foreach([Individual::RECORD_TYPE, Family::RECORD_TYPE, Media::RECORD_TYPE, Note::RECORD_TYPE, Repository::RECORD_TYPE, Source::RECORD_TYPE] as $type)   {   
-            $this->printBranchRecordStats($type);
-                    
-            }
-            ?>
-           
-        </div>
-        <?php
-        
-        foreach([Individual::RECORD_TYPE, Family::RECORD_TYPE, Media::RECORD_TYPE, Note::RECORD_TYPE, Repository::RECORD_TYPE, Source::RECORD_TYPE] as $type)   {   
-         if($this->BranchGenerator->numRecordInBranch($type) === 0) {continue;}
-         $this->printBranchPreviewTable(I18N::translate("%s records in the branch"),$type);
-        }
-        
-    }
-    
-    /**
      * Loads a branch based on a preset.
      */
     protected function loadPresetBranch()
@@ -909,6 +794,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         
         $this->PivotIndi = Individual::getInstance($preset->pivot, $WT_TREE);
         $this->CutoffXrefs = explode(",",$preset->cutoff);
+        $this->BranchGenerator = new BranchGenerator($this->PivotIndi, $this->CutoffXrefs);
     }
     
     /**
@@ -1057,7 +943,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         
         <form method="get" name="branchexp" action="module.php" id="branchexp">
                 <input type="hidden" name="mod" value="branch_export">
-                <input type="hidden" name="mod_action" value="preview">
+                <input type="hidden" name="mod_action" value="export">
                 <table>
                             <thead>
                                     <tr>
@@ -1117,8 +1003,8 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
                                     </tr>
                                     <tr>
                                         <td class="optionbox" colspan="2" style="text-align: center">
-                                            <input type="submit" value="<?php echo I18N::translate('Preview branch')?>">
-                                            <input type="submit" value="<?php echo I18N::translate('Export branch')?>" onclick="jQuery('#branchexp [name=\'mod_action\']').val('export');">
+                                            <input type="button" value="<?php echo I18N::translate('Preview branch')?>" data-action="branch-preview" onclick="branchExport_OnShowPreview('<?php echo $this->directory?>')">
+                                            <input type="submit" value="<?php echo I18N::translate('Export branch')?>">
                                            
                                         </td>
                                     </tr>
@@ -1147,6 +1033,9 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
                             </tfoot>
                     </table>
             </form>
+        </div>
+        <div id="branch-preview-content">
+            
         </div>
         <?php 
         if(!$this->isClippingsCartEnabled()):
@@ -1285,11 +1174,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         }
         
         else {
-            $this->printMainBranchInput();
-            if($mod_action === "preview")
-            {
-                $this->printBranchPreview();
-            }
+            $this->printMainBranchInput();    
         }
         
         

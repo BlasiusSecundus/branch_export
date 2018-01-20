@@ -256,6 +256,16 @@ class BranchGenerator
         $this->preprocessCutoffPoints();
     }
     
+
+    /**
+     * 
+     * @return Individual
+     */
+    public function getPivotIndi()
+    {
+        return $this->PivotIndi;
+    }
+    
     /**
      * 
      * @return string[] Generates the array of XREF in the branch.
