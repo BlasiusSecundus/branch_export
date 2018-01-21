@@ -566,14 +566,25 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     protected function cfgAction_CopyPresets()
     {
         
-       if(Filter::get('config_action') !== 'copy_presets' || !Auth::isAdmin()) //no need to copy presets
-      { 
+      if(Filter::post('config_action') !== 'copy_presets' || Filter::get("mod_action") !== "branch_export_config")//no need to copy presets
+      {
           return;
       }
       
-      $copy_to_tree_id = Filter::get('copy_to_tree_id');
-      $presets = Filter::get('presets');
       
+      if(!Auth::isAdmin()) 
+      { 
+          http_response_code(403);
+          exit();
+      }
+      
+      if(!Filter::checkCsrf()){
+          http_response_code(406);
+          exit();
+      }
+      
+      $copy_to_tree_id = intval(Filter::post('copy_to_tree_id'));
+      $presets = Filter::post('presets');
       if(!$copy_to_tree_id || !$presets)
       {
           return ;
@@ -581,7 +592,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
       
       foreach($presets as $preset)
       {
-          $preset_data = Database::prepare("SELECT * FROM ##branch_export_presets WHERE preset_id = :preset_id")->execute(["preset_id"=>$preset])->fetchAll()[0];
+          $preset_data = Database::prepare("SELECT * FROM ##branch_export_presets WHERE preset_id = :preset_id")->execute(["preset_id"=>intval($preset)])->fetchAll()[0];
           
           //now we need to assure that no preset for the target tree with the same name exists
           
@@ -603,12 +614,22 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
      */
     protected function cfgAction_DeletePresets()
     {
-      if(Filter::get('config_action') !== 'delete_presets' || !Auth::isAdmin()) //no need to delete presets
-      { 
+      if(Filter::post('config_action') !== 'delete_presets' || Filter::get("mod_action") !== "branch_export_config"){//no need to delete presets
           return;
       }
+      
+      if(!Auth::isAdmin()) 
+      { 
+          http_response_code(403);
+          exit();
+      }
+      
+      if(!Filter::checkCsrf()){
+          http_response_code(406);
+          exit();
+      }
      
-      $presets_to_delete = Filter::get('presets');
+      $presets_to_delete = Filter::post('presets');
       
       if(!$presets_to_delete)
       {
@@ -617,7 +638,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
       
       foreach($presets_to_delete as $preset)
       {
-          Database::prepare("DELETE FROM ##branch_export_presets WHERE preset_id = :preset")->execute(["preset"=>$preset])->rowCount();
+          Database::prepare("DELETE FROM ##branch_export_presets WHERE preset_id = :preset")->execute(["preset"=>intval($preset)])->rowCount();
       }
     }
     
@@ -698,10 +719,9 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
             <p class="admin-only-warning"><?php echo I18N::translate("Settings are only available for admins.")?></p>
             <?php else:?>
             
-            <form id="branchcfg" method="get" name="branchcfg" action="module.php">
-                <input type="hidden" name="mod" value="branch_export">
-                <input type="hidden" name="mod_action" value="branch_export_config">
+            <form id="branchcfg" method="post" name="branchcfg" action="module.php?mod=branch_export&amp;mod_action=branch_export_config">
                 <input type="hidden" name="config_action" value="">
+                <?php echo Filter::getCsrf()?>
                 <table>
                     <thead>
                         <tr>
@@ -1012,7 +1032,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
                                     <tr>
                                             <th colspan="2">
 
-
+                                                    <em><?php echo I18N::translate("Note: saved presets are shared with all members of the tree.")?></em>
                                             </th>
                                     </tr>
                             </tfoot>
@@ -1058,9 +1078,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         $loader = new ClassLoader();
         $loader->addPsr4('BlasiusSecundus\\WebtreesModules\\BranchExport\\', $this->directory);
         $loader->register();
-        
-         $this->init();
-         
+  
     }
 
     /* ****************************
@@ -1088,6 +1106,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     
     public function modAction($mod_action) {
         
+        $this->init();
         
         if($mod_action === "uninstall")
         {
@@ -1214,6 +1233,8 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     /** {@inheritdoc} */
     public function getTabContent() {
         
+       $this->init(); 
+       
        if($this->ModuleDBUpdateNecessary)
        {
            return I18N::translate("Branch export module needs a database update. Please visit the module's main page to perform this update!");
