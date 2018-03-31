@@ -1144,6 +1144,11 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
                 ->addExternalJavascript(WT_AUTOCOMPLETE_JS_URL)
                 ->addInlineJavascript('autocomplete();')
                 ->pageHeader();
+        if(Filter::get("mod_action") == "branch_export_config")
+         {
+             $controller
+                ->addExternalJavascript($this->directory."/assets/branch_config.js");
+         }
         
         if(!Auth::isMember($WT_TREE))
         {
