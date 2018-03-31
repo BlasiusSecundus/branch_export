@@ -1134,12 +1134,12 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         $controller = new PageController;
         $controller
                 ->setPageTitle($this->getTitle())
-                ->pageHeader()
                 ->addExternalJavascript($this->directory."/assets/sprintf.min.js")
                 ->addExternalJavascript($this->directory."/assets/translate.js")
                 ->addExternalJavascript($this->directory."/assets/branch_export.js")
                 ->addExternalJavascript(WT_AUTOCOMPLETE_JS_URL)
-                ->addInlineJavascript('autocomplete();');
+                ->addInlineJavascript('autocomplete();')
+                ->pageHeader();
         
         if(!Auth::isMember($WT_TREE))
         {
