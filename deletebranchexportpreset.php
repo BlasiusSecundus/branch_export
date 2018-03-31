@@ -24,7 +24,7 @@ if(!Filter::checkCsrf()){
 } 
 
 $tree_id = $WT_TREE->getTreeId();
-$name = Filter::post("name");
+$name = htmlspecialchars(Filter::post("name"));
 $member = Auth::isMember($WT_TREE);
 
 
@@ -43,7 +43,7 @@ if($num_deleted == 0)
 //now getting the updated list of presets
 $presets = Database::prepare("SELECT * FROM ##branch_export_presets WHERE tree_id = :tree_id ORDER BY name")->execute(["tree_id"=>$tree_id])->fetchAll(\PDO::FETCH_ASSOC);
 
-echo json_encode( ["presets"=>$presets,"selected"=>Filter::post("selected")]);
+echo json_encode( ["presets"=>$presets,"selected"=>Filter::postInteger("selected")]);
 }
 catch(\Exception $ex)
 {

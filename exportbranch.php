@@ -51,7 +51,7 @@ if($preset && $use_preset){
 }
 
 else {
-    $pivot = Filter::post("pivot");
+    $pivot = htmlspecialchars(Filter::post("pivot"));
     $cutoff = Filter::post("cutoff");
 }
 

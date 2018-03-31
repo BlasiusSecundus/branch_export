@@ -24,11 +24,11 @@ if(!Filter::checkCsrf()){
 } 
 
 $tree_id = $WT_TREE->getTreeId();
-$pivot = Filter::post("pivot");
-$name = Filter::post("name");
-$cutoff = Filter::post("cutoff");
-$rename = Filter::post("rename");
-$preset_to_rename = Filter::post("preset_to_rename");
+$pivot = htmlspecialchars(Filter::post("pivot"));
+$name = htmlspecialchars(Filter::post("name"));
+$cutoff = htmlspecialchars(Filter::post("cutoff"));
+$rename = htmlspecialchars(Filter::post("rename"));
+$preset_to_rename = htmlspecialchars(Filter::post("preset_to_rename"));
 $member = Auth::isMember($WT_TREE);
 
 
