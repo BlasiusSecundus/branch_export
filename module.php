@@ -371,7 +371,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     protected function loadSelectedPreset()
     {
         
-        $this->SelectedPreset = Filter::get("preset");
+        $this->SelectedPreset = Filter::getInteger("preset");
         
         if($this->SelectedPreset)
         {
@@ -391,7 +391,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     protected function loadSelectedPivot()
     {
         global $WT_TREE;
-        $this->PivotIndiXref = Filter::get("pivot");
+        $this->PivotIndiXref = Filter::escapeHtml(Filter::get("pivot"));
         
         if($this->PivotIndiXref)
         {
@@ -428,6 +428,10 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         
         if(!$this->CutoffXrefs)
             $this->CutoffXrefs = array();
+        
+        for($i=0; $i<count($this->CutoffXrefs);$i++){
+            $this->CutoffXrefs[$i] = Filter::escapeHtml($this->CutoffXrefs[$i]);
+        }
     }
     /**
      * 

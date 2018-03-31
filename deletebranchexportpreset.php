@@ -24,7 +24,7 @@ if(!Filter::checkCsrf()){
 } 
 
 $tree_id = $WT_TREE->getTreeId();
-$name = htmlspecialchars(Filter::post("name"));
+$name = Filter::escapeHtml(Filter::post("name"));
 $member = Auth::isMember($WT_TREE);
 
 
