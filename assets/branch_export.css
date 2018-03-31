@@ -8,18 +8,6 @@ and open the template in the editor.
     Author     : Balázs
 */
 
-.menu-branch-export
-{
-    background-position: center;
-    background-image: url("branch-export-icon.png")!important;
-}
-
-.menu-branch-export .menu-help
-{
-    background-position: left -552px;
-    
-}
-
 .branch-export-heading
 {
     width: 100%; 

@@ -1190,16 +1190,11 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     
     /** {@inheritdoc} */
     public  function getMenu() {
-        
+                   
         global $controller;
          $controller
-                ->addExternalJavascript($this->directory."/assets/branch_export.js");           
-         if(Filter::get("mod_action") == "branch_export_config")
-         {
-             $controller
-                ->addExternalJavascript($this->directory."/assets/branch_config.js");
-         }
-         
+                ->addExternalJavascript($this->directory."/assets/branchexport_add_menu_css.js");           
+
         if(Auth::isAdmin())
         {
             $submenu[] = new Menu(I18N::translate('Config'), $this->getConfigLink() , 'menu-admin', ['rel' => 'nofollow']);
