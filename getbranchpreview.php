@@ -38,15 +38,32 @@ if(!$member)
     ///
 
     $cutoff_points = Filter::post("cutoff");
+    
+    
     if($cutoff_points && is_string($cutoff_points))
     {
         $cutoff_points = explode(",", $cutoff_points);
     }
+    
+    if($cutoff_points){
+        foreach($cutoff_points as $c)
+            {
+                if(!preg_match("/^(F|I)[0-9]+$/", $c)){
+                    throw new \Exception("Bad cutoff XREF: ".Filter::escapeHtml($c));
+                }
+            }
+    }
+    
     $pivot_xref = Filter::post("pivot");
     
     if(!$pivot_xref)
     {
         throw new \Exception(I18N::translate("No pivot individual provided."));
+    }
+    
+    //validating pivot
+    if(!preg_match("/^I[0-9]+$/", $pivot_xref)){
+            throw new \Exception("Bad pivot XREF:".Filter::escapeHtml($pivot_xref));
     }
     
     $pivot_indi = Individual::getInstance($pivot_xref, $WT_TREE);

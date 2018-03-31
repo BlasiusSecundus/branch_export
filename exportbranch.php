@@ -51,7 +51,7 @@ if($preset && $use_preset){
 }
 
 else {
-    $pivot = htmlspecialchars(Filter::post("pivot"));
+    $pivot = Filter::escapeHtml(Filter::post("pivot"));
     $cutoff = Filter::post("cutoff");
 }
 
@@ -64,7 +64,7 @@ $pivot_indi = Individual::getInstance($pivot, $WT_TREE);
 
 if(!$pivot_indi)
 {
-    die("Cannot load pivot indi: $pivot.");
+    die("Cannot load pivot indi: ".Filter::escapeHtml($pivot));
 }
 
 //validating cutoff points
@@ -77,7 +77,7 @@ if($cutoff){
     foreach($cutoff as $c)
     {
         if(!preg_match("/^(F|I)[0-9]+$/", $c)){
-            die("Bad cutoff XREF: $c");
+            die("Bad cutoff XREF: ".Filter::escapeHtml($c));
         }
     }
 }

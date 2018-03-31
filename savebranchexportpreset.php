@@ -24,11 +24,11 @@ if(!Filter::checkCsrf()){
 } 
 
 $tree_id = $WT_TREE->getTreeId();
-$pivot = htmlspecialchars(Filter::post("pivot"));
-$name = htmlspecialchars(Filter::post("name"));
-$cutoff = htmlspecialchars(Filter::post("cutoff"));
-$rename = htmlspecialchars(Filter::post("rename"));
-$preset_to_rename = htmlspecialchars(Filter::post("preset_to_rename"));
+$pivot = Filter::escapeHtml(Filter::post("pivot"));
+$name = Filter::escapeHtml(Filter::post("name"));
+$cutoff = Filter::post("cutoff");
+$rename = Filter::escapeHtml(Filter::post("rename"));
+$preset_to_rename = Filter::escapeHtml(Filter::post("preset_to_rename"));
 $member = Auth::isMember($WT_TREE);
 
 
@@ -36,6 +36,8 @@ $member = Auth::isMember($WT_TREE);
 if(is_array($cutoff)){
     $cutoff = implode(",",$cutoff);
 }
+
+$cutoff = Filter::escapeHtml($cutoff);
 
 try{
 //checking if a preset with the same name exists
