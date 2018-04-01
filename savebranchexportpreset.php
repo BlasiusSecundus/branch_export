@@ -6,6 +6,8 @@ use Fisharebest\Webtrees\Database;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Auth;
 
+require_once('branchexportutils.php');
+
 /**
  * Defined in session.php
  *
@@ -31,18 +33,21 @@ $rename = Filter::escapeHtml(Filter::post("rename"));
 $preset_to_rename = Filter::escapeHtml(Filter::post("preset_to_rename"));
 $member = Auth::isMember($WT_TREE);
 
-
-
-if(is_array($cutoff)){
-    $cutoff = implode(",",$cutoff);
-}
-
-$cutoff = Filter::escapeHtml($cutoff);
-
 try{
 //checking if a preset with the same name exists
 if(!$member)    
     throw new \Exception(sprintf(I18N::translate("The current user is not authorized to modify presets belonging to '%s'"), $WT_TREE->getName()));
+
+if(!BranchExportUtils::validatePivot($pivot)){
+    throw new \Exception("Cannot save preset. Bad pivot XREF provided: $pivot");
+}
+
+$cutoff_array = is_array($cutoff) ? $cutoff : explode(",",$cutoff);
+$cutoff_string = Filter::escapeHtml(is_string($cutoff) ? $cutoff : implode(",", $cutoff));
+
+if(!BranchExportUtils::validateCutoffArray($cutoff_array)){
+    throw new \Exception("Cannot save preset. Bad cutoff XREF(s) provided.");
+}
 
 $preset_id = null;
 
@@ -61,11 +66,11 @@ else
 
 if($preset_id){
 //update
-$num_udapted = Database::prepare("UPDATE ##branch_export_presets SET pivot = :pivot, cutoff = :cutoff, name = :name WHERE preset_id =:preset_id")->execute(["name"=>$name,"pivot"=>$pivot,"cutoff"=>$cutoff,"preset_id"=>$preset_id])->rowCount();
+$num_udapted = Database::prepare("UPDATE ##branch_export_presets SET pivot = :pivot, cutoff = :cutoff, name = :name WHERE preset_id =:preset_id")->execute(["name"=>$name,"pivot"=>$pivot,"cutoff"=>$cutoff_string,"preset_id"=>$preset_id])->rowCount();
 }
 else{
 //insert new entry
-$new_added = Database::prepare("INSERT INTO ##branch_export_presets SET tree_id = :tree_id, name=:name, pivot = :pivot, cutoff = :cutoff")->execute(["tree_id"=>$tree_id,"name"=>$name,"pivot"=>$pivot,"cutoff"=>$cutoff])->rowCount();
+$new_added = Database::prepare("INSERT INTO ##branch_export_presets SET tree_id = :tree_id, name=:name, pivot = :pivot, cutoff = :cutoff")->execute(["tree_id"=>$tree_id,"name"=>$name,"pivot"=>$pivot,"cutoff"=>$cutoff_string])->rowCount();
 }
 //now getting the updated list of presets
 $presets = Database::prepare("SELECT * FROM ##branch_export_presets WHERE tree_id = :tree_id ORDER BY name")->execute(["tree_id"=>$tree_id])->fetchAll(\PDO::FETCH_ASSOC);

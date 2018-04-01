@@ -28,6 +28,7 @@ use Fisharebest\Webtrees\GedcomRecord;
 use Fisharebest\Webtrees\Tree;
 
 require_once 'branchgenerator.php';
+require_once 'branchexportutils.php';
 
 define("BRANCH_EXPORT_MODULE_VERSION","1.2.0 DEV - xx.xx.2018");
 define("BRANCH_EXPORT_MODULE_DB_VERSION",1);
@@ -317,7 +318,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
      */
     protected function clearSelectionsIfNeeded()
     {
-        if(Filter::get("clear_selections")){
+        if(Filter::getBool("clear_selections")){
         Session::put("branch_export_preset",null);
         Session::put("branch_export_pivot",null);
         Session::put("branch_export_cutoff",null);
@@ -393,7 +394,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         global $WT_TREE;
         $this->PivotIndiXref = Filter::escapeHtml(Filter::get("pivot"));
         
-        if($this->PivotIndiXref)
+        if($this->PivotIndiXref && BranchExportUtils::validatePivot($this->PivotIndiXref))
         {
             Session::put("branch_export_pivot", $this->PivotIndiXref);
         }
@@ -401,8 +402,16 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
         {
            $this->PivotIndiXref = Session::get("branch_export_pivot");
         }
+        else if($this->PivotIndiXref){
+            $this->PivotIndiXref = NULL;
+        }
         
-        $this->PivotIndi = Individual::getInstance($this->PivotIndiXref,$WT_TREE);
+        if ($this->PivotIndiXref) {
+            $this->PivotIndi = Individual::getInstance($this->PivotIndiXref, $WT_TREE);
+        }
+        else{
+            $this->PivotIndi = NULL;
+        }
     }
     
     /**
@@ -412,11 +421,7 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
     {
         $this->CutoffXrefs = Filter::get("cutoff");
         
-        if($this->CutoffXrefs)
-        {
-            Session::put("branch_export_cutoff", $this->CutoffXrefs);
-        }
-        else
+        if(!$this->CutoffXrefs)
         {
            $this->CutoffXrefs = Session::get("branch_export_cutoff");
         }
@@ -426,11 +431,15 @@ class BranchExportModule extends AbstractModule implements ModuleMenuInterface, 
             $this->CutoffXrefs = explode(",",$this->CutoffXrefs);
         }
         
-        if(!$this->CutoffXrefs)
+        if (!$this->CutoffXrefs) {
             $this->CutoffXrefs = array();
+        }
         
-        for($i=0; $i<count($this->CutoffXrefs);$i++){
-            $this->CutoffXrefs[$i] = Filter::escapeHtml($this->CutoffXrefs[$i]);
+        if(BranchExportUtils::validateCutoffArray($this->CutoffXrefs)){
+            Session::put("branch_export_cutoff", $this->CutoffXrefs);
+        }
+        else{
+            $this->CutoffXrefs = array();
         }
     }
     /**
