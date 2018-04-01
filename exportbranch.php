@@ -8,6 +8,7 @@ use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Session;
 
 require_once 'branchgenerator.php';
+require_once 'branchexportutils.php';
 
 /**
  * Defined in session.php
@@ -45,7 +46,7 @@ if($preset && $use_preset){
         die("Preset does not exists or does not belongs to the current tree.");
     }
     
-    $pivot = $preset_data["pivot"];
+    $pivot = Filter::escapeHtml($preset_data["pivot"]);
     $cutoff = $preset_data["cutoff"];
    
 }
@@ -56,7 +57,7 @@ else {
 }
 
 //validating pivot
-if(!preg_match("/^I[0-9]+$/", $pivot)){
+if(!BranchExportUtils::validatePivot($pivot)){
         die("Bad pivot XREF: $pivot");
 }
 
@@ -64,7 +65,7 @@ $pivot_indi = Individual::getInstance($pivot, $WT_TREE);
 
 if(!$pivot_indi)
 {
-    die("Cannot load pivot indi: ".Filter::escapeHtml($pivot));
+    die("Cannot load pivot indi: $pivot");
 }
 
 //validating cutoff points
@@ -74,11 +75,9 @@ if(is_string($cutoff))
 }
 
 if($cutoff){
-    foreach($cutoff as $c)
-    {
-        if(!preg_match("/^(F|I)[0-9]+$/", $c)){
-            die("Bad cutoff XREF: ".Filter::escapeHtml($c));
-        }
+    
+    if(!BranchExportUtils::validateCutoffArray($cutoff)){
+        die("Bad cutoff XREF(s).");
     }
 }
 else 

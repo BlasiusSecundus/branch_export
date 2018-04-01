@@ -8,6 +8,7 @@ use Fisharebest\Webtrees\Auth;
 
 require_once 'branchgenerator.php';
 require_once 'branchpreviewbuilder.php';
+require_once 'branchexportutils.php';
 
 /**
  * Defined in session.php
@@ -46,15 +47,12 @@ if(!$member)
     }
     
     if($cutoff_points){
-        foreach($cutoff_points as $c)
-            {
-                if(!preg_match("/^(F|I)[0-9]+$/", $c)){
-                    throw new \Exception("Bad cutoff XREF: ".Filter::escapeHtml($c));
-                }
+            if(!BranchExportUtils::validateCutoffArray($cutoff_points)){
+                throw new \Exception("Bad cutoff XREF.");
             }
     }
     
-    $pivot_xref = Filter::post("pivot");
+    $pivot_xref = Filter::escapeHtml(Filter::post("pivot"));
     
     if(!$pivot_xref)
     {
@@ -62,8 +60,8 @@ if(!$member)
     }
     
     //validating pivot
-    if(!preg_match("/^I[0-9]+$/", $pivot_xref)){
-            throw new \Exception("Bad pivot XREF:".Filter::escapeHtml($pivot_xref));
+    if(!BranchExportUtils::validatePivot($pivot_xref)){
+            throw new \Exception("Bad pivot XREF: $pivot_xref.");
     }
     
     $pivot_indi = Individual::getInstance($pivot_xref, $WT_TREE);
